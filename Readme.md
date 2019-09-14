@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
-* Студент: [Роман Бакакин](https://up.htmlacademy.ru/javascript/18/user/571665).
-* Наставник: `Неизвестно`.
+* Студент:    [Роман Бакакин](https://up.htmlacademy.ru/javascript/18/user/571665).
+* Наставник:  [Юрий Катков](https://up.htmlacademy.ru/javascript/18/user/473867).
 
 ---
 
