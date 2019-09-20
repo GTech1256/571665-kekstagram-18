@@ -27,6 +27,11 @@ var COMMENTS = [
 var DESCRIPTION = 'описание фотографии.';
 var NAMES = ['Артем', 'Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
 
+/* VARIABLES */
+
+var pictureTemplate = document.querySelector('#picture')
+  .content;
+
 /* UTILS */
 
 /**
@@ -83,4 +88,19 @@ function getGeneratedPhotoDescription(count) {
 
 
   return result;
+}
+
+/**
+ * создает DOM-элемент,
+ * соответствующий фотографиям и заполняет их данными:
+ *
+ * @param {PhotoDescription} payload
+ * @param {DocumentFragment} template
+ */
+function fillPictureTemplate(payload, template) {
+  var pictureNode = template.cloneNode(true);
+
+  pictureNode.querySelector('.picture__img').src = payload.url;
+  pictureNode.querySelector('.picture__likes').src = payload.likes;
+  pictureNode.querySelector('.picture__comments').src = payload.comments.length;
 }
