@@ -36,8 +36,8 @@ var pictureTemplate = document.querySelector('#picture')
 
 /**
  * Получение случайного числа между двумя значениями, включительно
- * @param {number} min включительно
- * @param {number} max включительно
+ * @param {number} min минимальное значение, включительно
+ * @param {number} max максимальное значение, включительно
  * @return {number} случайное числа между двумя значениями, включительно
  */
 function getRandomIntInclusive(min, max) {
@@ -48,10 +48,10 @@ function getRandomIntInclusive(min, max) {
 }
 
 /**
- * Возвращает рандомное значение из масива
+ * Возвращает случайное значение из масива
  *
  * @param {Array} array Массив значений
- * @return {*} рандомное значение из масива
+ * @return {*} случайное значение из масива
  */
 function getRandomValueFromArray(array) {
   return array[Math.floor(Math.random() * array.length)];
@@ -68,9 +68,9 @@ function getRandomValueFromArray(array) {
 function getGeneratedPhotoDescription(count) {
   var result = [];
 
-  for (var i = 0; i <= count; i++) {
+  for (var i = 0; i <= count - 1; i++) {
     result.push({
-      url: 'photos/' + i + '.jpg',
+      url: 'photos/' + (i + 1) + '.jpg',
       description: DESCRIPTION,
       likes: getRandomIntInclusive(MIN_COUNT_LIKES, MAX_COUNT_LIKES),
       comments: [{
@@ -79,28 +79,56 @@ function getGeneratedPhotoDescription(count) {
         name: getRandomValueFromArray(NAMES),
       },
       {
-        url: 'photos/' + i + '.jpg',
-        description: DESCRIPTION,
-        likes: getRandomIntInclusive(MIN_COUNT_LIKES, MAX_COUNT_LIKES),
+        avatar: 'img/avatar-' + getRandomIntInclusive(1, 6) + '.svg',
+        message: getRandomValueFromArray(COMMENTS),
+        name: getRandomValueFromArray(NAMES),
       }]
     });
   }
-
 
   return result;
 }
 
 /**
  * создает DOM-элемент,
- * соответствующий фотографиям и заполняет их данными:
+ * соответствующий разметке фотографии и заполняет их данными:
  *
  * @param {PhotoDescription} payload
  * @param {DocumentFragment} template
+ * @return {Node}
  */
-function fillPictureTemplate(payload, template) {
+function fillPictureDataInTemplate(payload, template) {
   var pictureNode = template.cloneNode(true);
 
   pictureNode.querySelector('.picture__img').src = payload.url;
-  pictureNode.querySelector('.picture__likes').src = payload.likes;
-  pictureNode.querySelector('.picture__comments').src = payload.comments.length;
+  pictureNode.querySelector('.picture__likes').textContent = payload.likes;
+  pictureNode.querySelector('.picture__comments').textContent = payload.comments.length;
+
+  return pictureNode;
 }
+
+/**
+ * Отрисовка, сгенерированных из темплейта #picture, DOM-элементов
+ *
+ * @param {number} count количество генераций DOM-элементов
+ */
+function renderGeneratedPictures(count) {
+  var fragment = document.createDocumentFragment();
+
+  var generatedPhotosDescription = getGeneratedPhotoDescription(count);
+
+  generatedPhotosDescription.forEach(function (item, i) {
+    fragment.appendChild(
+        fillPictureDataInTemplate(
+            generatedPhotosDescription[i],
+            pictureTemplate
+        )
+    );
+  });
+
+  document.querySelector('.pictures').appendChild(fragment);
+}
+
+/* MAIN */
+
+renderGeneratedPictures(COUNT_GENERATIONS_PHOTO_DESCRIPTION);
