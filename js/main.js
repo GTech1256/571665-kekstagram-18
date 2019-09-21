@@ -29,7 +29,10 @@ var NAMES = ['Артем', 'Иван', 'Хуан Себастьян', 'Мари�
 
 /* VARIABLES */
 
+var bigPictureNode = document.querySelector('.big-picture');
 var pictureTemplate = document.querySelector('#picture')
+  .content;
+var socialСommentTemplate = document.querySelector('#social__comment')
   .content;
 
 /* UTILS */
@@ -97,7 +100,7 @@ function getGeneratedPhotoDescription(count) {
  * @param {DocumentFragment} template
  * @return {Node}
  */
-function fillPictureDataInTemplate(payload, template) {
+function fillTemplateFromPictureData(payload, template) {
   var pictureNode = template.cloneNode(true);
 
   pictureNode.querySelector('.picture__img').src = payload.url;
@@ -110,17 +113,15 @@ function fillPictureDataInTemplate(payload, template) {
 /**
  * Отрисовка, сгенерированных из темплейта #picture, DOM-элементов
  *
- * @param {number} count количество генераций DOM-элементов
+ * @param {PhotoDescription} pictures количество генераций DOM-элементов
  */
-function renderGeneratedPictures(count) {
+function renderGeneratedPictures(pictures) {
   var fragment = document.createDocumentFragment();
 
-  var generatedPhotosDescription = getGeneratedPhotoDescription(count);
-
-  generatedPhotosDescription.forEach(function (item, i) {
+  pictures.forEach(function (item, i) {
     fragment.appendChild(
-        fillPictureDataInTemplate(
-            generatedPhotosDescription[i],
+        fillTemplateFromPictureData(
+            pictures[i],
             pictureTemplate
         )
     );
@@ -129,6 +130,34 @@ function renderGeneratedPictures(count) {
   document.querySelector('.pictures').appendChild(fragment);
 }
 
-/* MAIN */
+/**
+ * заполняет информацией полноэкранную картинку из переданных данных
+ *
+ * @param {PhotoDescription} payload переданные данные
+ */
+function fillBigPictureNodeBy(payload) {
+  bigPictureNode.classList.remove('hidden');
 
-renderGeneratedPictures(COUNT_GENERATIONS_PHOTO_DESCRIPTION);
+  bigPictureNode.querySelector('.big-picture__img img').src = payload.url;
+  bigPictureNode.querySelector('.likes-count').textContent = payload.likes;
+  bigPictureNode.querySelector('.comments-count').textContent = payload.comments.length;
+  bigPictureNode.querySelector('.social__caption').textContent = payload.description;
+
+  payload.comments.forEach(function (item) {
+    var socialСommentNode = socialСommentTemplate.cloneNode(true);
+    var socialPictureNode = socialСommentNode.querySelector('.social__picture');
+
+    socialСommentNode.querySelector('.social__text').textContent = item.message;
+    socialPictureNode.src = item.avatar;
+    socialPictureNode.alt = item.name;
+
+    document.querySelector('.social__comments').appendChild(socialСommentNode);
+  });
+}
+
+/* MAIN */
+var generatedPhotosDescription = getGeneratedPhotoDescription(COUNT_GENERATIONS_PHOTO_DESCRIPTION);
+renderGeneratedPictures(generatedPhotosDescription);
+
+fillBigPictureNodeBy(generatedPhotosDescription[0]);
+
