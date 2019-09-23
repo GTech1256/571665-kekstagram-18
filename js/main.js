@@ -40,7 +40,6 @@ var pictureTemplate = document.querySelector('#picture')
 /* UTILS */
 
 /**
- * Получение случайного числа между двумя значениями, включительно
  * @param {number} min минимальное значение, включительно
  * @param {number} max максимальное значение, включительно
  * @return {number} случайное числа между двумя значениями, включительно
