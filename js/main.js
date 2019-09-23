@@ -2,7 +2,7 @@
 
 /**
  * Описание фотографии.
- * @typedef {Object} PhotoDescription
+ * @typedef {Object} Photo
  * @property {string} url               - адрес картинки
  * @property {string} description       - описание фотографии.
  * @property {number} likes             - количество лайков
@@ -63,9 +63,9 @@ function getRandomValueFromArray(array) {
  * Возвращает случайно сгенерированные описания фотографий
  *
  * @param {number} count
- * @return {PhotoDescription[]}
+ * @return {Photo[]}
  */
-function getGeneratedPhotoDescription(count) {
+function getGeneratedPhoto(count) {
   var result = [];
 
   for (var i = 0; i <= count - 1; i++) {
@@ -93,7 +93,7 @@ function getGeneratedPhotoDescription(count) {
  * создает DOM-элемент,
  * соответствующий разметке фотографии и заполняет их данными:
  *
- * @param {PhotoDescription} payload
+ * @param {Photo} payload
  * @param {DocumentFragment} template
  * @return {Node}
  */
@@ -115,12 +115,12 @@ function fillPictureDataInTemplate(payload, template) {
 function renderGeneratedPictures(count) {
   var fragment = document.createDocumentFragment();
 
-  var generatedPhotosDescription = getGeneratedPhotoDescription(count);
+  var generatedPhotos = getGeneratedPhoto(count);
 
-  generatedPhotosDescription.forEach(function (item, i) {
+  generatedPhotos.forEach(function (item, i) {
     fragment.appendChild(
         fillPictureDataInTemplate(
-            generatedPhotosDescription[i],
+            generatedPhotos[i],
             pictureTemplate
         )
     );
