@@ -52,7 +52,7 @@ function getRandomIntInclusive(min, max) {
 }
 
 /**
- * @param {Array} array
+ * @param {*[]} array
  * @return {*}
  */
 function getRandomValueFromArray(array) {
