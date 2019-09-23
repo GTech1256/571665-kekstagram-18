@@ -65,7 +65,7 @@ function getRandomValueFromArray(array) {
  * @param {number} count
  * @return {Photo[]}
  */
-function getGeneratedPhoto(count) {
+function getGeneratedPhotos(count) {
   var photos = [];
 
   for (var i = 0; i <= count - 1; i++) {
@@ -115,7 +115,7 @@ function fillPictureDataInTemplate(payload, template) {
 function renderGeneratedPictures(count) {
   var fragment = document.createDocumentFragment();
 
-  var generatedPhotos = getGeneratedPhoto(count);
+  var generatedPhotos = getGeneratedPhotos(count);
 
   generatedPhotos.forEach(function (item, i) {
     fragment.appendChild(
