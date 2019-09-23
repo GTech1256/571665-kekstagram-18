@@ -66,10 +66,10 @@ function getRandomValueFromArray(array) {
  * @return {Photo[]}
  */
 function getGeneratedPhoto(count) {
-  var result = [];
+  var photos = [];
 
   for (var i = 0; i <= count - 1; i++) {
-    result.push({
+    photos.push({
       url: 'photos/' + (i + 1) + '.jpg',
       description: DESCRIPTION,
       likes: getRandomIntInclusive(MIN_COUNT_LIKES, MAX_COUNT_LIKES),
@@ -86,7 +86,7 @@ function getGeneratedPhoto(count) {
     });
   }
 
-  return result;
+  return photos;
 }
 
 /**
