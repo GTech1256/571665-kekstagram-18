@@ -97,7 +97,7 @@ function getGeneratedPhotos(count) {
  * @param {DocumentFragment} template
  * @return {Node}
  */
-function fillPictureDataInTemplate(payload, template) {
+function getFilledPictureNodeFromTemplate(payload, template) {
   var pictureNode = template.cloneNode(true);
 
   pictureNode.querySelector('.picture__img').src = payload.url;
@@ -119,7 +119,7 @@ function renderGeneratedPictures(count) {
 
   generatedPhotos.forEach(function (item, i) {
     fragment.appendChild(
-        fillPictureDataInTemplate(
+        getFilledPictureNodeFromTemplate(
             generatedPhotos[i],
             pictureTemplate
         )
