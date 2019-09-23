@@ -14,7 +14,7 @@
 
 /* CONSTANTS */
 
-var COUNT_GENERATIONS_PHOTO_DESCRIPTION = 25;
+var PHOTOS_COUNT = 25;
 var MIN_COUNT_LIKES = 15;
 var MAX_COUNT_LIKES = 200;
 var COMMENTS = [
@@ -131,4 +131,4 @@ function renderGeneratedPictures(count) {
 
 /* MAIN */
 
-renderGeneratedPictures(COUNT_GENERATIONS_PHOTO_DESCRIPTION);
+renderGeneratedPictures(PHOTOS_COUNT);
