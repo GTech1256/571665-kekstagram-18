@@ -52,10 +52,8 @@ function getRandomIntInclusive(min, max) {
 }
 
 /**
- * Возвращает случайное значение из масива
- *
- * @param {Array} array Массив значений
- * @return {*} случайное значение из масива
+ * @param {Array} array
+ * @return {*}
  */
 function getRandomValueFromArray(array) {
   return array[Math.floor(Math.random() * array.length)];
