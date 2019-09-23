@@ -42,7 +42,7 @@ var pictureTemplate = document.querySelector('#picture')
 /**
  * @param {number} min
  * @param {number} max
- * @return {number} случайное число между двумя значениями, включительно
+ * @return {number}
  */
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
