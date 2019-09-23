@@ -62,8 +62,6 @@ function getRandomValueFromArray(array) {
 /* FUNCTIONS */
 
 /**
- * Возвращает случайно сгенерированные описания фотографий
- *
  * @param {number} count
  * @return {Photo[]}
  */
