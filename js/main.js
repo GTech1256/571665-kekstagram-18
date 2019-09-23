@@ -1,15 +1,20 @@
 'use strict';
 
 /**
+ * Комментарий к фотографии
+ * @typedef {Object} PhotoComment
+ * @property {string} avatar   - адрес аватарки
+ * @property {string} message  - предложение коментатора
+ * @property {string} name     - имя коментатора
+ */
+
+/**
  * Описание фотографии.
  * @typedef {Object} Photo
  * @property {string} url               - адрес картинки
  * @property {string} description       - описание фотографии.
  * @property {number} likes             - количество лайков
- * @property {Object[]} comments        - список комментариев, оставленных другими пользователями к этой фотографии.
- * @property {string} comments.avatar   - адрес аватарки
- * @property {string} comments.message  - предложение коментатора
- * @property {string} comments.name     - имя коментатора
+ * @property {PhotoComment[]} comments       - список комментариев, оставленных другими пользователями к этой фотографии.
  */
 
 /* CONSTANTS */
