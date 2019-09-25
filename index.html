@@ -236,6 +236,17 @@
     <div class="img-upload__message  img-upload__message--loading">Загружаем...</div>
   </template>
 
+  <!-- комментарий под фотографией -->
+  <template id="social__comment">
+    <li class="social__comment">
+      <img
+        class="social__picture"
+        src="img/avatar-{{случайное число от 1 до 6}}.svg"
+        alt="{{Автор комментария}}"
+        width="35" height="35">
+      <p class="social__text">{{текст комментария}}</p>
+    </li>
+  </template>
   <!-- Подключаемые скрипты -->
   <script src="js/main.js"></script>
 </body>
