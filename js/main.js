@@ -1,20 +1,25 @@
 'use strict';
 
 /**
+ * Комментарий к фотографии
+ * @typedef {Object} PhotoComment
+ * @property {string} avatar   - адрес аватарки
+ * @property {string} message  - предложение коментатора
+ * @property {string} name     - имя коментатора
+ */
+
+/**
  * Описание фотографии.
- * @typedef {Object} PhotoDescription
+ * @typedef {Object} Photo
  * @property {string} url               - адрес картинки
  * @property {string} description       - описание фотографии.
  * @property {number} likes             - количество лайков
- * @property {Object[]} comments        - список комментариев, оставленных другими пользователями к этой фотографии.
- * @property {string} comments.avatar   - адрес аватарки
- * @property {string} comments.message  - предложение коментатора
- * @property {string} comments.name     - имя коментатора
+ * @property {PhotoComment[]} comments       - список комментариев, оставленных другими пользователями к этой фотографии.
  */
 
 /* CONSTANTS */
 
-var COUNT_GENERATIONS_PHOTO_DESCRIPTION = 25;
+var PHOTOS_COUNT = 25;
 var MIN_COUNT_LIKES = 15;
 var MAX_COUNT_LIKES = 200;
 var COMMENTS = [
@@ -38,10 +43,9 @@ var socialСommentTemplate = document.querySelector('#social__comment')
 /* UTILS */
 
 /**
- * Получение случайного числа между двумя значениями, включительно
- * @param {number} min минимальное значение, включительно
- * @param {number} max максимальное значение, включительно
- * @return {number} случайное числа между двумя значениями, включительно
+ * @param {number} min
+ * @param {number} max
+ * @return {number}
  */
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
@@ -51,10 +55,8 @@ function getRandomIntInclusive(min, max) {
 }
 
 /**
- * Возвращает случайное значение из масива
- *
- * @param {Array} array Массив значений
- * @return {*} случайное значение из масива
+ * @param {*[]} array
+ * @return {*}
  */
 function getRandomValueFromArray(array) {
   return array[Math.floor(Math.random() * array.length)];
@@ -63,16 +65,14 @@ function getRandomValueFromArray(array) {
 /* FUNCTIONS */
 
 /**
- * Возвращает случайно сгенерированные описания фотографий
- *
  * @param {number} count
- * @return {PhotoDescription[]}
+ * @return {Photo[]}
  */
-function getGeneratedPhotoDescription(count) {
-  var result = [];
+function getGeneratedPhotos(count) {
+  var photos = [];
 
   for (var i = 0; i <= count - 1; i++) {
-    result.push({
+    photos.push({
       url: 'photos/' + (i + 1) + '.jpg',
       description: DESCRIPTION,
       likes: getRandomIntInclusive(MIN_COUNT_LIKES, MAX_COUNT_LIKES),
@@ -89,18 +89,18 @@ function getGeneratedPhotoDescription(count) {
     });
   }
 
-  return result;
+  return photos;
 }
 
 /**
  * создает DOM-элемент,
  * соответствующий разметке фотографии и заполняет их данными:
  *
- * @param {PhotoDescription} payload
+ * @param {Photo} payload
  * @param {DocumentFragment} template
  * @return {Node}
  */
-function fillTemplateFromPictureData(payload, template) {
+function getFilledPictureNodeFromTemplate(payload, template) {
   var pictureNode = template.cloneNode(true);
 
   pictureNode.querySelector('.picture__img').src = payload.url;
@@ -118,10 +118,12 @@ function fillTemplateFromPictureData(payload, template) {
 function renderGeneratedPictures(pictures) {
   var fragment = document.createDocumentFragment();
 
-  pictures.forEach(function (item, i) {
+  var generatedPhotos = getGeneratedPhotos(count);
+
+  generatedPhotos.forEach(function (item, i) {
     fragment.appendChild(
-        fillTemplateFromPictureData(
-            pictures[i],
+        getFilledPictureNodeFromTemplate(
+            generatedPhotos[i],
             pictureTemplate
         )
     );
@@ -159,7 +161,7 @@ function fillBigPictureNodeBy(payload) {
 var generatedPhotosDescription = getGeneratedPhotoDescription(COUNT_GENERATIONS_PHOTO_DESCRIPTION);
 renderGeneratedPictures(generatedPhotosDescription);
 
-fillBigPictureNodeBy(generatedPhotosDescription[0]);
+renderGeneratedPictures(PHOTOS_COUNT);
 
 document.querySelector('.social__comment-count').classList.add('visually-hidden');
 document.querySelector('.comments-loader').classList.add('visually-hidden');
