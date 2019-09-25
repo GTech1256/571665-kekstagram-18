@@ -2,7 +2,7 @@
 
 /**
  * Комментарий к фотографии
- * @typedef {Object} PhotoComment
+ * @typedef {Object} PictureComment
  * @property {string} avatar   - адрес аватарки
  * @property {string} message  - предложение коментатора
  * @property {string} name     - имя коментатора
@@ -10,11 +10,11 @@
 
 /**
  * Описание фотографии.
- * @typedef {Object} Photo
+ * @typedef {Object} Picture
  * @property {string} url               - адрес картинки
  * @property {string} description       - описание фотографии.
  * @property {number} likes             - количество лайков
- * @property {PhotoComment[]} comments       - список комментариев, оставленных другими пользователями к этой фотографии.
+ * @property {PictureComment[]} comments       - список комментариев, оставленных другими пользователями к этой фотографии.
  */
 
 /* CONSTANTS */
@@ -35,10 +35,9 @@ var NAMES = ['Артем', 'Иван', 'Хуан Себастьян', 'Мари�
 /* VARIABLES */
 
 var bigPictureNode = document.querySelector('.big-picture');
-var pictureTemplate = document.querySelector('#picture')
-  .content;
-var socialСommentTemplate = document.querySelector('#social__comment')
-  .content;
+
+var pictureTemplate = document.querySelector('#picture').content;
+var socialСommentTemplate = document.querySelector('#social__comment').content;
 
 /* UTILS */
 
@@ -66,13 +65,13 @@ function getRandomValueFromArray(array) {
 
 /**
  * @param {number} count
- * @return {Photo[]}
+ * @return {Picture[]}
  */
-function getGeneratedPhotos(count) {
-  var photos = [];
+function getGeneratedPictures(count) {
+  var pictures = [];
 
   for (var i = 0; i <= count - 1; i++) {
-    photos.push({
+    pictures.push({
       url: 'photos/' + (i + 1) + '.jpg',
       description: DESCRIPTION,
       likes: getRandomIntInclusive(MIN_COUNT_LIKES, MAX_COUNT_LIKES),
@@ -89,19 +88,18 @@ function getGeneratedPhotos(count) {
     });
   }
 
-  return photos;
+  return pictures;
 }
 
 /**
  * создает DOM-элемент,
  * соответствующий разметке фотографии и заполняет их данными:
  *
- * @param {Photo} payload
- * @param {DocumentFragment} template
+ * @param {Picture} payload
  * @return {Node}
  */
-function getFilledPictureNodeFromTemplate(payload, template) {
-  var pictureNode = template.cloneNode(true);
+function getFilledPictureNodeFromTemplate(payload) {
+  var pictureNode = pictureTemplate.cloneNode(true);
 
   pictureNode.querySelector('.picture__img').src = payload.url;
   pictureNode.querySelector('.picture__likes').textContent = payload.likes;
@@ -113,18 +111,15 @@ function getFilledPictureNodeFromTemplate(payload, template) {
 /**
  * Отрисовка, сгенерированных из темплейта #picture, DOM-элементов
  *
- * @param {PhotoDescription} pictures количество генераций DOM-элементов
+ * @param {Picture[]} generatedPictures
  */
-function renderGeneratedPictures(pictures) {
+function renderGeneratedPictures(generatedPictures) {
   var fragment = document.createDocumentFragment();
 
-  var generatedPhotos = getGeneratedPhotos(count);
-
-  generatedPhotos.forEach(function (item, i) {
+  generatedPictures.forEach(function (item, i) {
     fragment.appendChild(
         getFilledPictureNodeFromTemplate(
-            generatedPhotos[i],
-            pictureTemplate
+            generatedPictures[i]
         )
     );
   });
@@ -135,7 +130,7 @@ function renderGeneratedPictures(pictures) {
 /**
  * заполняет информацией полноэкранную картинку из переданных данных
  *
- * @param {PhotoDescription} payload переданные данные
+ * @param {Picture} payload переданные данные
  */
 function fillBigPictureNodeBy(payload) {
   bigPictureNode.classList.remove('hidden');
@@ -158,10 +153,12 @@ function fillBigPictureNodeBy(payload) {
 }
 
 /* MAIN */
-var generatedPhotosDescription = getGeneratedPhotoDescription(COUNT_GENERATIONS_PHOTO_DESCRIPTION);
-renderGeneratedPictures(generatedPhotosDescription);
+var generatedPictures = getGeneratedPictures(PHOTOS_COUNT);
 
-renderGeneratedPictures(PHOTOS_COUNT);
+renderGeneratedPictures(generatedPictures);
+fillBigPictureNodeBy(generatedPictures[0]);
 
+// Прячет блоки счётчика комментариев
 document.querySelector('.social__comment-count').classList.add('visually-hidden');
+// Прячет загрузку новых комментариев
 document.querySelector('.comments-loader').classList.add('visually-hidden');
