@@ -39,6 +39,11 @@ var bigPictureNode = document.querySelector('.big-picture');
 var pictureTemplate = document.querySelector('#picture').content;
 var socialСommentTemplate = document.querySelector('#social__comment').content;
 
+var pictureUploadInputNode = document.querySelector('#upload-file');
+var pictureEditorNode = document.querySelector('.img-upload__overlay');
+var pictureUploadPreviewNode = document.querySelector('.img-upload__preview img');
+var pictureEffectPreviewNodes = document.querySelectorAll('.effects__preview');
+
 /* UTILS */
 
 /**
@@ -152,11 +157,46 @@ function fillBigPictureNodeBy(payload) {
   });
 }
 
+function setUploadFilePictureToPreviewsNodes(file) {
+  var reader = new FileReader();
+
+  reader.onload = function (readerEvt) {
+    pictureUploadPreviewNode.src = readerEvt.target.result;
+    pictureEffectPreviewNodes.forEach(function (node) {
+      node.style.backgroundImage = 'url(' + readerEvt.target.result + ')';
+    });
+
+    pictureEditorNode.classList.remove('hidden');
+  };
+
+  reader.readAsDataURL(file);
+}
+
+/* EVENTS */
+/* EVENTS:controls */
+function closePictureEditignForm() {
+  pictureUploadInputNode.value = '';
+  pictureEditorNode.classList.add('hidden');
+}
+
+function uploadFileChangeHandler(evt) {
+  if (evt.target.files && evt.target.files[0]) {
+    setUploadFilePictureToPreviewsNodes(evt.target.files[0]);
+  }
+}
+/* EVENTS:listeners */
+pictureUploadInputNode.addEventListener('change', uploadFileChangeHandler);
+
+document.querySelector('.img-upload__cancel.cancel').addEventListener('click', function () {
+  closePictureEditignForm();
+});
+
+
 /* MAIN */
 var generatedPictures = getGeneratedPictures(PHOTOS_COUNT);
 
 renderGeneratedPictures(generatedPictures);
-fillBigPictureNodeBy(generatedPictures[0]);
+// fillBigPictureNodeBy(generatedPictures[0]);
 
 // Прячет блоки счётчика комментариев
 document.querySelector('.social__comment-count').classList.add('visually-hidden');
