@@ -31,6 +31,8 @@ var COMMENTS = [
 ];
 var DESCRIPTION = 'описание фотографии.';
 var NAMES = ['Артем', 'Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
+var ESC_KEYCODE = 27;
+// var ENTER_KEYCODE = 13;
 
 /* VARIABLES */
 
@@ -138,8 +140,6 @@ function renderGeneratedPictures(generatedPictures) {
  * @param {Picture} payload переданные данные
  */
 function fillBigPictureNodeBy(payload) {
-  bigPictureNode.classList.remove('hidden');
-
   bigPictureNode.querySelector('.big-picture__img img').src = payload.url;
   bigPictureNode.querySelector('.likes-count').textContent = payload.likes;
   bigPictureNode.querySelector('.comments-count').textContent = payload.comments.length;
@@ -155,6 +155,8 @@ function fillBigPictureNodeBy(payload) {
 
     document.querySelector('.social__comments').appendChild(socialСommentNode);
   });
+
+  openBigPicture();
 }
 
 function setUploadFilePictureToPreviewsNodes(file) {
@@ -173,7 +175,16 @@ function setUploadFilePictureToPreviewsNodes(file) {
 }
 
 /* EVENTS */
+
 /* EVENTS:controls */
+function bigPictureEscPressHandler(evt) {
+  // Если фокус находится на форме ввода имени, то окно закрываться не должно.
+  var isNameInputTarget = evt.target.classList.contains('setup-user-name');
+
+  if (evt.keyCode === ESC_KEYCODE && !isNameInputTarget) {
+    closeBigPicture();
+  }
+}
 function closePictureEditignForm() {
   pictureUploadInputNode.value = '';
   pictureEditorNode.classList.add('hidden');
@@ -184,6 +195,17 @@ function uploadFileChangeHandler(evt) {
     setUploadFilePictureToPreviewsNodes(evt.target.files[0]);
   }
 }
+
+function openBigPicture() {
+  bigPictureNode.classList.remove('hidden');
+  document.addEventListener('keydown', bigPictureEscPressHandler);
+}
+
+function closeBigPicture() {
+  bigPictureNode.classList.add('hidden');
+  document.removeEventListener('keydown', bigPictureEscPressHandler);
+}
+
 /* EVENTS:listeners */
 pictureUploadInputNode.addEventListener('change', uploadFileChangeHandler);
 
@@ -191,12 +213,15 @@ document.querySelector('.img-upload__cancel.cancel').addEventListener('click', f
   closePictureEditignForm();
 });
 
+bigPictureNode.querySelector('.big-picture__cancel').addEventListener('click', function () {
+  closeBigPicture();
+});
 
 /* MAIN */
 var generatedPictures = getGeneratedPictures(PHOTOS_COUNT);
 
 renderGeneratedPictures(generatedPictures);
-// fillBigPictureNodeBy(generatedPictures[0]);
+fillBigPictureNodeBy(generatedPictures[0]);
 
 // Прячет блоки счётчика комментариев
 document.querySelector('.social__comment-count').classList.add('visually-hidden');
