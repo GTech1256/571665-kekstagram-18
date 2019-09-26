@@ -159,6 +159,12 @@ function fillBigPictureNodeBy(payload) {
   openBigPicture();
 }
 
+/**
+ * Реализует отображение настоящего изображения,
+ * переданого в file[type="file"]
+ *
+ * @param {*} file
+ */
 function setUploadFilePictureToPreviewsNodes(file) {
   var reader = new FileReader();
 
@@ -168,7 +174,7 @@ function setUploadFilePictureToPreviewsNodes(file) {
       node.style.backgroundImage = 'url(' + readerEvt.target.result + ')';
     });
 
-    pictureEditorNode.classList.remove('hidden');
+    openPictureEditorForm();
   };
 
   reader.readAsDataURL(file);
@@ -185,9 +191,14 @@ function bigPictureEscPressHandler(evt) {
     closeBigPicture();
   }
 }
-function closePictureEditignForm() {
-  pictureUploadInputNode.value = '';
-  pictureEditorNode.classList.add('hidden');
+
+function pictureEditorFormEscPressHandler(evt) {
+  // Если фокус находится на форме ввода имени, то окно закрываться не должно.
+  var isNameInputTarget = evt.target.classList.contains('setup-user-name');
+
+  if (evt.keyCode === ESC_KEYCODE && !isNameInputTarget) {
+    closePictureEditiorForm();
+  }
 }
 
 function uploadFileChangeHandler(evt) {
@@ -206,11 +217,25 @@ function closeBigPicture() {
   document.removeEventListener('keydown', bigPictureEscPressHandler);
 }
 
+function openPictureEditorForm() {
+  pictureEditorNode.classList.remove('hidden');
+  document.addEventListener('keydown', pictureEditorFormEscPressHandler);
+}
+
+function closePictureEditiorForm() {
+  pictureEditorNode.classList.add('hidden');
+
+  pictureUploadInputNode.value = '';
+
+  document.removeventListener('keydown', pictureEditorFormEscPressHandler);
+}
+
+
 /* EVENTS:listeners */
 pictureUploadInputNode.addEventListener('change', uploadFileChangeHandler);
 
 document.querySelector('.img-upload__cancel.cancel').addEventListener('click', function () {
-  closePictureEditignForm();
+  closePictureEditiorForm();
 });
 
 bigPictureNode.querySelector('.big-picture__cancel').addEventListener('click', function () {
