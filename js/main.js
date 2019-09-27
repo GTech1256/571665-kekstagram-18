@@ -68,6 +68,16 @@ function getRandomValueFromArray(array) {
   return array[Math.floor(Math.random() * array.length)];
 }
 
+/**
+ * Проверяет является ли элемент target вводом данных
+ *
+ * @param {Event} evt
+ * @return {boolean}
+ */
+function isTargetInput(evt) {
+  return evt.target && (evt.target.name || evt.target.tagName === 'INPUT');
+}
+
 /* FUNCTIONS */
 
 /**
@@ -184,19 +194,17 @@ function setUploadFilePictureToPreviewsNodes(file) {
 
 /* EVENTS:controls */
 function bigPictureEscPressHandler(evt) {
-  // Если фокус находится на форме ввода имени, то окно закрываться не должно.
-  var isNameInputTarget = evt.target.classList.contains('setup-user-name');
+  // Если фокус находится на форме ввода, то окно закрываться не должно.
 
-  if (evt.keyCode === ESC_KEYCODE && !isNameInputTarget) {
+  if (evt.keyCode === ESC_KEYCODE && !isTargetInput(evt)) {
     closeBigPicture();
   }
 }
 
 function pictureEditorFormEscPressHandler(evt) {
-  // Если фокус находится на форме ввода имени, то окно закрываться не должно.
-  var isNameInputTarget = evt.target.classList.contains('setup-user-name');
+  // Если фокус находится на форме ввода, то окно закрываться не должно.
 
-  if (evt.keyCode === ESC_KEYCODE && !isNameInputTarget) {
+  if (evt.keyCode === ESC_KEYCODE && !isTargetInput(evt)) {
     closePictureEditiorForm();
   }
 }
@@ -227,7 +235,7 @@ function closePictureEditiorForm() {
 
   pictureUploadInputNode.value = '';
 
-  document.removeventListener('keydown', pictureEditorFormEscPressHandler);
+  document.removeEventListener('keydown', pictureEditorFormEscPressHandler);
 }
 
 
