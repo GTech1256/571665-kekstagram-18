@@ -422,7 +422,6 @@ function closeBigPicture() {
 }
 
 /* - PictureEditorForm */
-openPictureEditorForm();
 function openPictureEditorForm() {
   setPictureScale(SCALE_CONTROL_CONSTRAINTS.default);
   setEffectLevelNewValue(MAX_PERCENT_OF_FILTER_VALUE);
