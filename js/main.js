@@ -46,7 +46,6 @@ var PLUS_KEYCODE = 107;
 // var ENTER_KEYCODE = 13;
 var PICTURE_UPLOAD_PREVIEW_IMG_DEFAULT_CLASS_NAME = 'img-upload__preview';
 var MAX_PERCENT_OF_FILTER_VALUE = 100;
-/** @type {FILTER_CONTRUCTOR} */
 var FILTER_DEFAULT = {
   min: 0,
   max: 1,
@@ -55,7 +54,6 @@ var FILTER_DEFAULT = {
     return filterName + '(' + newPercent / MAX_PERCENT_OF_FILTER_VALUE + ')';
   }
 };
-/** @type {FILTER_CONTRUCTOR} */
 var FILTER_INVERT = {
   name: 'invert',
   min: 0,
@@ -63,7 +61,6 @@ var FILTER_INVERT = {
   units: '%',
   getValue: _getCssViaFilterContructor
 };
-/** @type {FILTER_CONTRUCTOR} */
 var FILTER_BLUR = {
   name: 'blur',
   min: 0,
@@ -71,7 +68,6 @@ var FILTER_BLUR = {
   units: 'px',
   getValue: _getCssViaFilterContructor
 };
-/** @type {FILTER_CONTRUCTOR} */
 var FILTER_BRIGHTNESS = {
   name: 'brightness',
   min: 1,
@@ -93,6 +89,13 @@ var SCALE_CONTROL_CONSTRAINTS = {
   max: 100,
   step: 25,
   default: 100
+};
+var HASHTAG_VALIDATOR_MESSAGE = {
+  toMany: 'Нельзя указать больше пяти хэш-тегов',
+  toLong: 'максимальная длина одного хэш-тега 20 символов, включая решётку',
+  firstSymbol: 'хэш-тег должен начинатся с символа # (решётка)',
+  spaceRequire: 'хеш-тег должны разделяться пробелами',
+  unique: 'один и тот же хэш-тег не может быть использован дважды'
 };
 
 /* VARIABLES */
@@ -372,6 +375,37 @@ function setPictureScale(newScale) {
   scaleControlValue.dispatchEvent(new Event('change'));
 }
 
+/**
+ * Реализация callback'а для forEach
+ * Валидация каждого хэштега
+ *
+ * @param {string} hashtag
+ * @param {number} index
+ * @param {string[]} allHashtags
+ */
+function hashtagValidator(hashtag, index, allHashtags) {
+  if (hashtag[0] !== '#') {
+    textHashtagInputNode.setCustomValidity(hashtag + ': ' + HASHTAG_VALIDATOR_MESSAGE.firstSymbol);
+    return;
+  }
+
+  if (hashtag.length > 20) {
+    textHashtagInputNode.setCustomValidity(hashtag + ': ' + HASHTAG_VALIDATOR_MESSAGE.toLong);
+    return;
+  }
+
+  var manyHashInTagRegExp = /(?:\s|^)#[A-Za-z0-9\-\.\_]+(?:\s|$)/g;
+  if (!manyHashInTagRegExp.test(hashtag)) {
+    textHashtagInputNode.setCustomValidity(hashtag + ': ' + HASHTAG_VALIDATOR_MESSAGE.spaceRequire);
+    return;
+  }
+
+  if (allHashtags.indexOf(hashtag.toLowerCase()) !== index) {
+    textHashtagInputNode.setCustomValidity(hashtag + ': ' + HASHTAG_VALIDATOR_MESSAGE.unique);
+    return;
+  }
+}
+
 
 /* BUSINESS LOGIC */
 
@@ -499,7 +533,6 @@ function pictureEffectPreviewClickHandler(evt) {
 function textHashtagInputHandler(evt) {
   textHashtagInputNode.setCustomValidity('');
 
-
   if (evt.target.value.trim() === '') {
     return;
   }
@@ -507,37 +540,11 @@ function textHashtagInputHandler(evt) {
   var hashtags = evt.target.value.trim().toLowerCase().split(' ');
 
   if (hashtags.length > 5) {
-    textHashtagInputNode.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
+    textHashtagInputNode.setCustomValidity(HASHTAG_VALIDATOR_MESSAGE.toMany);
     return;
   }
 
-  hashtags.forEach(function (hashtag, index) {
-    if (hashtag[0] !== '#') {
-      textHashtagInputNode.setCustomValidity(hashtag + ': хэш-тег должен начинатся с символа # (решётка)');
-      return;
-    }
-
-    if (hashtag[0] !== '#') {
-      textHashtagInputNode.setCustomValidity(hashtag + ': хэш-тег должен начинатся с символа # (решётка)');
-      return;
-    }
-
-    if (hashtag.length > 20) {
-      textHashtagInputNode.setCustomValidity(hashtag + ': максимальная длина одного хэш-тега 20 символов, включая решётку;');
-      return;
-    }
-
-    var manyHashInTagRegExp = /(?:\s|^)#[A-Za-z0-9\-\.\_]+(?:\s|$)/g;
-    if (!manyHashInTagRegExp.test(hashtag)) {
-      textHashtagInputNode.setCustomValidity(hashtag + ': хеш-тег должны разделяться пробелами');
-      return;
-    }
-
-    if (hashtags.indexOf(hashtag.toLowerCase()) !== index) {
-      textHashtagInputNode.setCustomValidity(hashtag + ': один и тот же хэш-тег не может быть использован дважды');
-      return;
-    }
-  });
+  hashtags.forEach(hashtagValidator);
 }
 
 /* EVENTS:listeners */
