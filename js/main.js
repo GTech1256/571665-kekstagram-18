@@ -109,14 +109,16 @@ var pictureUploadPreviewImgNode = document.querySelector('.img-upload__preview i
 var pictureEffectPreviewNodes = document.querySelectorAll('.effects__preview');
 
 var effectLevel = document.querySelector('.effect-level');
-var effectLevelLine = document.querySelector('.effect-level__line');
 var effectLevelLPin = document.querySelector('.effect-level__pin');
+var effectLevelLine = document.querySelector('.effect-level__line');
 var effectLevelLDepth = document.querySelector('.effect-level__depth');
 var effectLevelLValue = document.querySelector('.effect-level__value');
 
 var scaleControlValue = document.querySelector('.scale__control--value');
-var scaleControlSmaller = document.querySelector('.scale__control--smaller');
 var scaleControlBigger = document.querySelector('.scale__control--bigger');
+var scaleControlSmaller = document.querySelector('.scale__control--smaller');
+
+var textHashtagInputNode = document.querySelector('.text__hashtags');
 
 /* UTILS */
 
@@ -370,6 +372,7 @@ function setPictureScale(newScale) {
   scaleControlValue.dispatchEvent(new Event('change'));
 }
 
+
 /* BUSINESS LOGIC */
 
 /* - BigPicture */
@@ -385,7 +388,7 @@ function closeBigPicture() {
 }
 
 /* - PictureEditorForm */
-
+openPictureEditorForm();
 function openPictureEditorForm() {
   setPictureScale(SCALE_CONTROL_CONSTRAINTS.default);
   setEffectLevelNewValue(MAX_PERCENT_OF_FILTER_VALUE);
@@ -478,7 +481,6 @@ function effectLevelLineMouseupHandler(evt) {
 function pictureEffectPreviewClickHandler(evt) {
   pictureUploadPreviewNode.className = PICTURE_UPLOAD_PREVIEW_IMG_DEFAULT_CLASS_NAME + ' ' + evt.target.classList[1];
 
-
   /*
   При переключении эффектов,
   уровень насыщенности сбрасывается до начального значения (100%):
@@ -488,6 +490,54 @@ function pictureEffectPreviewClickHandler(evt) {
   */
   pictureUploadPreviewNode.style.filter = '';
   setEffectLevelNewValue(MAX_PERCENT_OF_FILTER_VALUE);
+}
+
+/**
+ *
+ * @param {Event} evt
+ */
+function textHashtagInputHandler(evt) {
+  textHashtagInputNode.setCustomValidity('');
+
+
+  if (evt.target.value.trim() === '') {
+    return;
+  }
+
+  var hashtags = evt.target.value.trim().toLowerCase().split(' ');
+
+  if (hashtags.length > 5) {
+    textHashtagInputNode.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
+    return;
+  }
+
+  hashtags.forEach(function (hashtag, index) {
+    if (hashtag[0] !== '#') {
+      textHashtagInputNode.setCustomValidity(hashtag + ': хэш-тег должен начинатся с символа # (решётка)');
+      return;
+    }
+
+    if (hashtag[0] !== '#') {
+      textHashtagInputNode.setCustomValidity(hashtag + ': хэш-тег должен начинатся с символа # (решётка)');
+      return;
+    }
+
+    if (hashtag.length > 20) {
+      textHashtagInputNode.setCustomValidity(hashtag + ': максимальная длина одного хэш-тега 20 символов, включая решётку;');
+      return;
+    }
+
+    var manyHashInTagRegExp = /(?:\s|^)#[A-Za-z0-9\-\.\_]+(?:\s|$)/g;
+    if (!manyHashInTagRegExp.test(hashtag)) {
+      textHashtagInputNode.setCustomValidity(hashtag + ': хеш-тег должны разделяться пробелами');
+      return;
+    }
+
+    if (hashtags.indexOf(hashtag.toLowerCase()) !== index) {
+      textHashtagInputNode.setCustomValidity(hashtag + ': один и тот же хэш-тег не может быть использован дважды');
+      return;
+    }
+  });
 }
 
 /* EVENTS:listeners */
@@ -517,6 +567,8 @@ scaleControlSmaller.addEventListener('click', function () {
 scaleControlValue.addEventListener('change', function () {
   pictureUploadPreviewImgNode.style.transform = 'scale(' + scaleControlValue.value / 100 + ')';
 });
+
+textHashtagInputNode.addEventListener('input', textHashtagInputHandler);
 
 
 /* MAIN */
