@@ -41,6 +41,8 @@ var COMMENTS = [
 var DESCRIPTION = 'описание фотографии.';
 var NAMES = ['Артем', 'Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
 var ESC_KEYCODE = 27;
+var MINUS_KEYCODE = 109;
+var PLUS_KEYCODE = 107;
 // var ENTER_KEYCODE = 13;
 var PICTURE_UPLOAD_PREVIEW_IMG_DEFAULT_CLASS_NAME = 'img-upload__preview';
 var MAX_PERCENT_OF_FILTER_VALUE = 100;
@@ -86,6 +88,12 @@ var FILTER_MAP = {
   brightness: FILTER_BRIGHTNESS,
   default: FILTER_DEFAULT
 };
+var SCALE_CONTROL_CONSTRAINTS = {
+  min: 25,
+  max: 100,
+  step: 25,
+  default: 100
+};
 
 /* VARIABLES */
 
@@ -105,6 +113,10 @@ var effectLevelLine = document.querySelector('.effect-level__line');
 var effectLevelLPin = document.querySelector('.effect-level__pin');
 var effectLevelLDepth = document.querySelector('.effect-level__depth');
 var effectLevelLValue = document.querySelector('.effect-level__value');
+
+var scaleControlValue = document.querySelector('.scale__control--value');
+var scaleControlSmaller = document.querySelector('.scale__control--smaller');
+var scaleControlBigger = document.querySelector('.scale__control--bigger');
 
 /* UTILS */
 
@@ -328,6 +340,36 @@ function setEffectLevelInPictureEditor(newPercent) {
     FILTER_MAP.default.getValue(newPercent, filterName);
 }
 
+/**
+ *
+ * @param {boolean} toUp При true повышает значение на 1 шаг
+ */
+function changeByStepPictureScale(toUp) {
+  var currentValue = parseInt(scaleControlValue.value, 10);
+
+  setPictureScale(
+      toUp ?
+        currentValue + SCALE_CONTROL_CONSTRAINTS.step :
+        currentValue - SCALE_CONTROL_CONSTRAINTS.step
+  );
+}
+
+/**
+ *
+ * @param {number} newScale 0 - 100
+ */
+function setPictureScale(newScale) {
+  scaleControlBigger.disabled = newScale === SCALE_CONTROL_CONSTRAINTS.max;
+  scaleControlSmaller.disabled = newScale === SCALE_CONTROL_CONSTRAINTS.min;
+
+  if (newScale > SCALE_CONTROL_CONSTRAINTS.max || newScale < SCALE_CONTROL_CONSTRAINTS.min) {
+    return;
+  }
+
+  scaleControlValue.value = newScale;
+  scaleControlValue.dispatchEvent(new Event('change'));
+}
+
 /* BUSINESS LOGIC */
 
 /* - BigPicture */
@@ -345,9 +387,10 @@ function closeBigPicture() {
 /* - PictureEditorForm */
 
 function openPictureEditorForm() {
+  setPictureScale(SCALE_CONTROL_CONSTRAINTS.default);
   setEffectLevelNewValue(MAX_PERCENT_OF_FILTER_VALUE);
   pictureEditorNode.classList.remove('hidden');
-  document.addEventListener('keydown', pictureEditorFormEscPressHandler);
+  document.addEventListener('keydown', pictureEditorFormKeyboardPressHandler);
 }
 
 function closePictureEditiorForm() {
@@ -355,7 +398,7 @@ function closePictureEditiorForm() {
 
   pictureUploadInputNode.value = '';
 
-  document.removeEventListener('keydown', pictureEditorFormEscPressHandler);
+  document.removeEventListener('keydown', pictureEditorFormKeyboardPressHandler);
 }
 
 /* - EffectLevelLine */
@@ -384,10 +427,17 @@ function bigPictureEscPressHandler(evt) {
 /**
  * @param {Event} evt
  */
-function pictureEditorFormEscPressHandler(evt) {
+function pictureEditorFormKeyboardPressHandler(evt) {
   // Если фокус находится на форме ввода, то окно закрываться не должно.
   if (evt.keyCode === ESC_KEYCODE && !isTargetInput(evt)) {
     closePictureEditiorForm();
+    return;
+  }
+
+  var isPressedMinus = evt.keyCode === MINUS_KEYCODE;
+  var isPressedPlus = evt.keyCode === PLUS_KEYCODE;
+  if (isPressedMinus || isPressedPlus) {
+    changeByStepPictureScale(isPressedPlus);
   }
 }
 
@@ -456,6 +506,18 @@ pictureEffectPreviewNodes.forEach(function (node) {
 });
 
 effectLevelLine.addEventListener('mouseup', effectLevelLineMouseupHandler);
+
+scaleControlBigger.addEventListener('click', function () {
+  changeByStepPictureScale(true);
+});
+scaleControlSmaller.addEventListener('click', function () {
+  changeByStepPictureScale(false);
+});
+
+scaleControlValue.addEventListener('change', function () {
+  pictureUploadPreviewImgNode.style.transform = 'scale(' + scaleControlValue.value / 100 + ')';
+});
+
 
 /* MAIN */
 var generatedPictures = getGeneratedPictures(PHOTOS_COUNT);
