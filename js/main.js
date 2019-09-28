@@ -23,11 +23,10 @@
 
 /**
  * @typedef {Object} FILTER_DESCRIPTOR
- * @property {string} name имя фильтра
- * @property {number} min имя фильтра
- * @property {number} max имя фильтра
+ * @property {string} name
+ * @property {number} min
+ * @property {number} max
  * @property {sting} units
- * @property {NumberToFilterValueConverter} getValue имя фильтра
  */
 
 /* CONSTANTS */
@@ -362,7 +361,7 @@ function setPictureScale(newScale) {
 }
 
 /**
- * Реализация callback'а для forEach
+ * Реализация callback'а для Array.forEach
  * Валидация каждого хэштега
  *
  * @param {string} hashtag
