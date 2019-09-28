@@ -1,6 +1,10 @@
 'use strict';
 
 /**
+ * @typedef {function(number):string} NumberToFilterValueConverter
+ */
+
+/**
  * Комментарий к фотографии
  * @typedef {Object} PictureComment
  * @property {string} avatar   - адрес аватарки
@@ -18,12 +22,12 @@
  */
 
 /**
- * @typedef {Object} FILTER_CONTRUCTOR
+ * @typedef {Object} FILTER_DESCRIPTOR
  * @property {string} name имя фильтра
  * @property {number} min имя фильтра
  * @property {number} max имя фильтра
  * @property {sting} units
- * @property {_getCssViaFilterContructor} getValue имя фильтра
+ * @property {NumberToFilterValueConverter} getValue имя фильтра
  */
 
 /* CONSTANTS */
@@ -50,33 +54,24 @@ var FILTER_DEFAULT = {
   min: 0,
   max: 1,
   units: '',
-  getValue: function (newPercent, filterName) {
-    return filterName + '(' + newPercent / MAX_PERCENT_OF_FILTER_VALUE + ')';
-  }
 };
 var FILTER_INVERT = {
-  name: 'invert',
   min: 0,
   max: 100,
   units: '%',
-  getValue: _getCssViaFilterContructor
 };
 var FILTER_BLUR = {
-  name: 'blur',
   min: 0,
   max: 3,
   units: 'px',
-  getValue: _getCssViaFilterContructor
 };
 var FILTER_BRIGHTNESS = {
-  name: 'brightness',
   min: 1,
   max: 3,
   units: '',
-  getValue: _getCssViaFilterContructor
 };
 /**
- * @type {Object<string, FILTER_CONTRUCTOR>}
+ * @type {Object<string, FILTER_DESCRIPTOR>}
  */
 var FILTER_MAP = {
   invert: FILTER_INVERT,
@@ -95,7 +90,16 @@ var HASHTAG_VALIDATOR_MESSAGE = {
   toLong: 'максимальная длина одного хэш-тега 20 символов, включая решётку',
   firstSymbol: 'хэш-тег должен начинатся с символа # (решётка)',
   spaceRequire: 'хеш-тег должны разделяться пробелами',
-  unique: 'один и тот же хэш-тег не может быть использован дважды'
+  unique: 'один и тот же хэш-тег не может быть использован дважды',
+  notOnlyHash: 'хеш-тег не может состоять только из одной решётки'
+};
+var EFFECT_NAME_TO_FILTER_MAP = {
+  chrome: 'grayscale',
+  sepia: 'sepia',
+  marvin: 'invert',
+  phobos: 'blur',
+  heat: 'brightness',
+  none: 'none'
 };
 
 /* VARIABLES */
@@ -110,7 +114,9 @@ var pictureEditorNode = document.querySelector('.img-upload__overlay');
 var pictureUploadPreviewNode = document.querySelector('.img-upload__preview');
 var pictureUploadPreviewImgNode = document.querySelector('.img-upload__preview img');
 var pictureEffectPreviewNodes = document.querySelectorAll('.effects__preview');
+var pictureEffectPreviewInputNodes = document.querySelectorAll('.effects__radio');
 
+var currentFilter = EFFECT_NAME_TO_FILTER_MAP.none;
 var effectLevel = document.querySelector('.effect-level');
 var effectLevelLPin = document.querySelector('.effect-level__pin');
 var effectLevelLine = document.querySelector('.effect-level__line');
@@ -148,18 +154,13 @@ function getRandomValueFromArray(array) {
 /**
  * @param {number} min
  * @param {number} max
- * @param {number} percent > 0 && < percentMax
+ * @param {number} percent > 0 && < 100
  * @param {number} percentMax
  * @return {number} значения между min и max по percent
+ * @example getValueBetweenByPercent(1, 2, 50) === 1.5
  */
-function getValueBetweenByPercent(min, max, percent, percentMax) {
-  if (percent > percentMax) {
-    return max;
-  }
-  if (percent < 0) {
-    return min;
-  }
-  return ((max - min) / percentMax * percent) + min;
+function getValueBetweenByPercent(min, max, percent) {
+  return ((max - min) / MAX_PERCENT_OF_FILTER_VALUE * percent) + min;
 }
 
 /**
@@ -304,45 +305,30 @@ function setEffectLevelPinPosition(newPercentWidth) {
 }
 
 /**
-   * @typedef {Function} _getCssViaFilterContructor
-   * @this {FILTER_CONTRUCTOR}
-   * @param {number} newPercent
-   * @return {string} <filtername>(value + units)
-   */
-function _getCssViaFilterContructor(newPercent) {
-  var isCalculateCss = this.min !== 0 || this.max !== MAX_PERCENT_OF_FILTER_VALUE;
-  var value = newPercent;
-
-  if (isCalculateCss) {
-    value = getValueBetweenByPercent(this.min, this.max, newPercent, MAX_PERCENT_OF_FILTER_VALUE);
-  }
-
-  if (this.max === 1) {
-    value /= MAX_PERCENT_OF_FILTER_VALUE;
-  }
-
-  return this.name + '(' + value + this.units + ')';
-}
-
-/**
- * Заменяет текущий уровень фильтра на новый
- * grayscale(1) => grayscale(newPercent)
  * @param {number} newPercent 0 - 100
  */
 function setEffectLevelInPictureEditor(newPercent) {
-  var currentFilter = window.getComputedStyle(pictureUploadPreviewNode).filter;
-  var filterName = currentFilter.match(/([a-z]+)/)[1];
 
-  // При выборе эффекта «Оригинал» слайдер скрывается.
-  if (filterName === 'none') {
+  if (currentFilter === EFFECT_NAME_TO_FILTER_MAP.none) {
     hideEffectLevelLine();
-  } else {
-    showEffectLevelLine();
+    return;
   }
 
-  pictureUploadPreviewNode.style.filter = FILTER_MAP[filterName] ?
-    FILTER_MAP[filterName].getValue(newPercent) :
-    FILTER_MAP.default.getValue(newPercent, filterName);
+  showEffectLevelLine();
+  setFilterToPictureUploadPreviewNode(newPercent);
+}
+
+/**
+ * @param {number} newPercent 0 - 100
+ */
+function setFilterToPictureUploadPreviewNode(newPercent) {
+  if (currentFilter === EFFECT_NAME_TO_FILTER_MAP.chrome || currentFilter === EFFECT_NAME_TO_FILTER_MAP.sepia) {
+    pictureUploadPreviewNode.style.filter = currentFilter + '(' + newPercent / MAX_PERCENT_OF_FILTER_VALUE + ')';
+  } else {
+    var filter = FILTER_MAP[currentFilter];
+    newPercent = getValueBetweenByPercent(filter.min, filter.max, newPercent, MAX_PERCENT_OF_FILTER_VALUE);
+    pictureUploadPreviewNode.style.filter = currentFilter + '(' + newPercent + filter.units + ')';
+  }
 }
 
 /**
@@ -384,28 +370,49 @@ function setPictureScale(newScale) {
  * @param {string[]} allHashtags
  */
 function hashtagValidator(hashtag, index, allHashtags) {
-  if (hashtag[0] !== '#') {
-    textHashtagInputNode.setCustomValidity(hashtag + ': ' + HASHTAG_VALIDATOR_MESSAGE.firstSymbol);
-    return;
-  }
 
-  if (hashtag.length > 20) {
-    textHashtagInputNode.setCustomValidity(hashtag + ': ' + HASHTAG_VALIDATOR_MESSAGE.toLong);
-    return;
-  }
 
-  var manyHashInTagRegExp = /(?:\s|^)#[A-Za-z0-9\-\.\_]+(?:\s|$)/g;
-  if (!manyHashInTagRegExp.test(hashtag)) {
-    textHashtagInputNode.setCustomValidity(hashtag + ': ' + HASHTAG_VALIDATOR_MESSAGE.spaceRequire);
-    return;
-  }
+  inputNodeValidatorConstruct(textHashtagInputNode)
 
-  if (allHashtags.indexOf(hashtag.toLowerCase()) !== index) {
-    textHashtagInputNode.setCustomValidity(hashtag + ': ' + HASHTAG_VALIDATOR_MESSAGE.unique);
-    return;
-  }
+    .makeCandidateVerification(
+        hashtag.length > 20,
+        hashtag + ': ' + HASHTAG_VALIDATOR_MESSAGE.toLong
+    )
+    .makeCandidateVerification(
+        hashtag.split('#').length > 1,
+        hashtag + ': ' + HASHTAG_VALIDATOR_MESSAGE.spaceRequire
+    )
+    .makeCandidateVerification(
+        allHashtags.indexOf(hashtag.toLowerCase()) !== index,
+        hashtag + ': ' + HASHTAG_VALIDATOR_MESSAGE.unique
+    )
+
+    .makeCandidateVerification(
+        hashtag.length === 1,
+        hashtag + ': ' + HASHTAG_VALIDATOR_MESSAGE.notOnlyHash
+    )
+    .makeCandidateVerification(
+        hashtag[0] !== '#',
+        hashtag + ': ' + HASHTAG_VALIDATOR_MESSAGE.firstSymbol
+    );
 }
 
+/**
+ * @param {Node} inputNode
+ * @return {{ makeCandidateVerification: function(boolean, string) }}
+ */
+function inputNodeValidatorConstruct(inputNode) {
+
+  function makeCandidateVerification(condition, message) {
+    if (condition) {
+      inputNode.setCustomValidity(message);
+    }
+
+    return {makeCandidateVerification: makeCandidateVerification};
+  }
+
+  return {makeCandidateVerification: makeCandidateVerification};
+}
 
 /* BUSINESS LOGIC */
 
@@ -501,7 +508,7 @@ function effectLevelLineMouseupHandler(evt) {
   }
 
   var percentsOffset = MAX_PERCENT_OF_FILTER_VALUE / effectLevelLine.offsetWidth * evt.offsetX;
-
+  // percentsOffset = getCorrectValueBetween(0, 100);
   setEffectLevelNewValue(percentsOffset);
 }
 
@@ -511,8 +518,9 @@ function effectLevelLineMouseupHandler(evt) {
  * Обрабатывает нажатие на любой из предпросмотров фильтра
  * @param {Event} evt
  */
-function pictureEffectPreviewClickHandler(evt) {
-  pictureUploadPreviewNode.className = PICTURE_UPLOAD_PREVIEW_IMG_DEFAULT_CLASS_NAME + ' ' + evt.target.classList[1];
+function pictureEffectPreviewInputClickHandler(evt) {
+  currentFilter = EFFECT_NAME_TO_FILTER_MAP[evt.target.value];
+  pictureUploadPreviewNode.className = PICTURE_UPLOAD_PREVIEW_IMG_DEFAULT_CLASS_NAME + ' effects__preview--' + currentFilter;
 
   /*
   При переключении эффектов,
@@ -521,7 +529,6 @@ function pictureEffectPreviewClickHandler(evt) {
   CSS-стиль изображения и
   значение поля должны обновляться.
   */
-  pictureUploadPreviewNode.style.filter = '';
   setEffectLevelNewValue(MAX_PERCENT_OF_FILTER_VALUE);
 }
 
@@ -557,8 +564,8 @@ bigPictureNode.querySelector('.big-picture__cancel').addEventListener('click', f
   closeBigPicture();
 });
 
-pictureEffectPreviewNodes.forEach(function (node) {
-  node.addEventListener('click', pictureEffectPreviewClickHandler);
+pictureEffectPreviewInputNodes.forEach(function (node) {
+  node.addEventListener('click', pictureEffectPreviewInputClickHandler);
 });
 
 effectLevelLine.addEventListener('mouseup', effectLevelLineMouseupHandler);
