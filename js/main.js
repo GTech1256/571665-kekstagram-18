@@ -116,15 +116,15 @@ var pictureEffectPreviewNodes = document.querySelectorAll('.effects__preview');
 var pictureEffectPreviewInputNodes = document.querySelectorAll('.effects__radio');
 
 var currentFilter = EFFECT_NAME_TO_FILTER_MAP.none;
-var effectLevel = document.querySelector('.effect-level');
-var effectLevelLPin = document.querySelector('.effect-level__pin');
-var effectLevelLine = document.querySelector('.effect-level__line');
-var effectLevelLDepth = document.querySelector('.effect-level__depth');
-var effectLevelLValue = document.querySelector('.effect-level__value');
+var effectLevelNode = document.querySelector('.effect-level');
+var effectLevelLPinNode = document.querySelector('.effect-level__pin');
+var effectLevelLineNode = document.querySelector('.effect-level__line');
+var effectLevelLDepthNode = document.querySelector('.effect-level__depth');
+var effectLevelLValueNode = document.querySelector('.effect-level__value');
 
-var scaleControlValue = document.querySelector('.scale__control--value');
-var scaleControlBigger = document.querySelector('.scale__control--bigger');
-var scaleControlSmaller = document.querySelector('.scale__control--smaller');
+var scaleControlValueNode = document.querySelector('.scale__control--value');
+var scaleControlBiggerNode = document.querySelector('.scale__control--bigger');
+var scaleControlSmallerNode = document.querySelector('.scale__control--smaller');
 
 var textHashtagInputNode = document.querySelector('.text__hashtags');
 
@@ -290,7 +290,7 @@ function setUploadFilePictureToPreviewsNodes(file) {
 function setEffectLevelNewValue(newValue) {
   setEffectLevelPinPosition(newValue);
 
-  effectLevelLValue.value = newValue;
+  effectLevelLValueNode.value = newValue;
 
   setEffectLevelInPictureEditor(newValue);
 }
@@ -299,8 +299,8 @@ function setEffectLevelNewValue(newValue) {
  * @param {number} newPercentWidth 0 - 100
  */
 function setEffectLevelPinPosition(newPercentWidth) {
-  effectLevelLPin.style.left = newPercentWidth + '%';
-  effectLevelLDepth.style.width = newPercentWidth + '%';
+  effectLevelLPinNode.style.left = newPercentWidth + '%';
+  effectLevelLDepthNode.style.width = newPercentWidth + '%';
 }
 
 /**
@@ -335,7 +335,7 @@ function setFilterToPictureUploadPreviewNode(newPercent) {
  * @param {boolean} toUp При true повышает значение на 1 шаг
  */
 function changeByStepPictureScale(toUp) {
-  var currentValue = parseInt(scaleControlValue.value, 10);
+  var currentValue = parseInt(scaleControlValueNode.value, 10);
 
   setPictureScale(
       toUp ?
@@ -349,15 +349,15 @@ function changeByStepPictureScale(toUp) {
  * @param {number} newScale 0 - 100
  */
 function setPictureScale(newScale) {
-  scaleControlBigger.disabled = newScale === SCALE_CONTROL_CONSTRAINTS.max;
-  scaleControlSmaller.disabled = newScale === SCALE_CONTROL_CONSTRAINTS.min;
+  scaleControlBiggerNode.disabled = newScale === SCALE_CONTROL_CONSTRAINTS.max;
+  scaleControlSmallerNode.disabled = newScale === SCALE_CONTROL_CONSTRAINTS.min;
 
   if (newScale > SCALE_CONTROL_CONSTRAINTS.max || newScale < SCALE_CONTROL_CONSTRAINTS.min) {
     return;
   }
 
-  scaleControlValue.value = newScale;
-  scaleControlValue.dispatchEvent(new Event('change'));
+  scaleControlValueNode.value = newScale;
+  scaleControlValueNode.dispatchEvent(new Event('change'));
 }
 
 /**
@@ -443,13 +443,13 @@ function closePictureEditorForm() {
   document.removeEventListener('keydown', pictureEditorFormKeyboardPressHandler);
 }
 
-/* - EffectLevelLine */
+/* - effectLevelLineNode */
 function hideEffectLevelLine() {
-  effectLevel.classList.add('hidden');
+  effectLevelNode.classList.add('hidden');
 }
 
 function showEffectLevelLine() {
-  effectLevel.classList.remove('hidden');
+  effectLevelNode.classList.remove('hidden');
 }
 
 /* EVENTS */
@@ -502,11 +502,11 @@ function uploadFileChangeHandler(evt) {
  * @param {Event} evt
  */
 function effectLevelLineMouseupHandler(evt) {
-  if (evt.target === effectLevelLPin) {
+  if (evt.target === effectLevelLPinNode) {
     return;
   }
 
-  var percentsOffset = MAX_PERCENT_OF_FILTER_VALUE / effectLevelLine.offsetWidth * evt.offsetX;
+  var percentsOffset = MAX_PERCENT_OF_FILTER_VALUE / effectLevelLineNode.offsetWidth * evt.offsetX;
   // percentsOffset = getCorrectValueBetween(0, 100);
   setEffectLevelNewValue(percentsOffset);
 }
@@ -567,17 +567,17 @@ pictureEffectPreviewInputNodes.forEach(function (node) {
   node.addEventListener('click', pictureEffectPreviewInputClickHandler);
 });
 
-effectLevelLine.addEventListener('mouseup', effectLevelLineMouseupHandler);
+effectLevelLineNode.addEventListener('mouseup', effectLevelLineMouseupHandler);
 
-scaleControlBigger.addEventListener('click', function () {
+scaleControlBiggerNode.addEventListener('click', function () {
   changeByStepPictureScale(true);
 });
-scaleControlSmaller.addEventListener('click', function () {
+scaleControlSmallerNode.addEventListener('click', function () {
   changeByStepPictureScale(false);
 });
 
-scaleControlValue.addEventListener('change', function () {
-  pictureUploadPreviewImgNode.style.transform = 'scale(' + scaleControlValue.value / 100 + ')';
+scaleControlValueNode.addEventListener('change', function () {
+  pictureUploadPreviewImgNode.style.transform = 'scale(' + scaleControlValueNode.value / 100 + ')';
 });
 
 textHashtagInputNode.addEventListener('input', textHashtagInputHandler);
