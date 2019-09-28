@@ -435,7 +435,7 @@ function openPictureEditorForm() {
   document.addEventListener('keydown', pictureEditorFormKeyboardPressHandler);
 }
 
-function closePictureEditiorForm() {
+function closePictureEditorForm() {
   pictureEditorNode.classList.add('hidden');
 
   pictureUploadInputNode.value = '';
@@ -472,7 +472,7 @@ function bigPictureEscPressHandler(evt) {
 function pictureEditorFormKeyboardPressHandler(evt) {
   // Если фокус находится на форме ввода, то окно закрываться не должно.
   if (evt.keyCode === ESC_KEYCODE && !isTargetInput(evt)) {
-    closePictureEditiorForm();
+    closePictureEditorForm();
     return;
   }
 
@@ -556,7 +556,7 @@ function textHashtagInputHandler(evt) {
 pictureUploadInputNode.addEventListener('change', uploadFileChangeHandler);
 
 document.querySelector('.img-upload__cancel.cancel').addEventListener('click', function () {
-  closePictureEditiorForm();
+  closePictureEditorForm();
 });
 
 bigPictureNode.querySelector('.big-picture__cancel').addEventListener('click', function () {
