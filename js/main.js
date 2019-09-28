@@ -26,7 +26,7 @@
  * @property {string} name
  * @property {number} min
  * @property {number} max
- * @property {sting} units
+ * @property {string} units
  */
 
 /* CONSTANTS */
