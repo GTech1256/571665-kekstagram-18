@@ -76,7 +76,7 @@ var FILTER_MAP = {
   invert: FILTER_INVERT,
   blur: FILTER_BLUR,
   brightness: FILTER_BRIGHTNESS,
-  default: FILTER_DEFAULT
+  none: FILTER_DEFAULT
 };
 var SCALE_CONTROL_CONSTRAINTS = {
   min: 25,
@@ -309,6 +309,7 @@ function setEffectLevelPinPosition(newPercentWidth) {
 function setEffectLevelInPictureEditor(newPercent) {
 
   if (currentFilter === EFFECT_NAME_TO_FILTER_MAP.none) {
+    setFilterToPictureUploadPreviewNode(0);
     hideEffectLevelLine();
     return;
   }
@@ -321,7 +322,9 @@ function setEffectLevelInPictureEditor(newPercent) {
  * @param {number} newPercent 0 - 100
  */
 function setFilterToPictureUploadPreviewNode(newPercent) {
-  if (currentFilter === EFFECT_NAME_TO_FILTER_MAP.chrome || currentFilter === EFFECT_NAME_TO_FILTER_MAP.sepia) {
+  if (currentFilter === EFFECT_NAME_TO_FILTER_MAP.none) {
+    pictureUploadPreviewNode.style.filter = '';
+  } else if (currentFilter === EFFECT_NAME_TO_FILTER_MAP.chrome || currentFilter === EFFECT_NAME_TO_FILTER_MAP.sepia) {
     pictureUploadPreviewNode.style.filter = currentFilter + '(' + newPercent / MAX_PERCENT_OF_FILTER_VALUE + ')';
   } else {
     var filter = FILTER_MAP[currentFilter];
