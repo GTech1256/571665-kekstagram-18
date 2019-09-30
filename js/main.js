@@ -373,15 +373,13 @@ function setPictureScale(newScale) {
  */
 function hashtagValidator(hashtag, index, allHashtags) {
 
-
   inputNodeValidatorConstruct(textHashtagInputNode)
-
     .makeCandidateVerification(
         hashtag.length > 20,
         hashtag + ': ' + HASHTAG_VALIDATOR_MESSAGE.toLong
     )
     .makeCandidateVerification(
-        hashtag.split('#').length > 1,
+        hashtag.split('#').length > 2,
         hashtag + ': ' + HASHTAG_VALIDATOR_MESSAGE.spaceRequire
     )
     .makeCandidateVerification(
