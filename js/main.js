@@ -458,7 +458,7 @@ function showEffectLevelLine() {
 /* EVENTS:controls */
 
 /**
- * @param {Event} evt
+ * @param {KeyboardEvent} evt
  */
 function bigPictureEscPressHandler(evt) {
   // Если фокус находится на форме ввода, то окно закрываться не должно.
@@ -468,7 +468,7 @@ function bigPictureEscPressHandler(evt) {
 }
 
 /**
- * @param {Event} evt
+ * @param {KeyboardEvent} evt
  */
 function pictureEditorFormKeyboardPressHandler(evt) {
   // Если фокус находится на форме ввода, то окно закрываться не должно.
@@ -500,7 +500,7 @@ function uploadFileChangeHandler(evt) {
  * Изменять уровень насыщенности фильтра для изображения,
  * при отпускании мыши на линию
  *
- * @param {Event} evt
+ * @param {MouseEvent} evt
  */
 function effectLevelLineMouseupHandler(evt) {
   if (evt.target === effectLevelLPinNode) {
@@ -516,7 +516,7 @@ function effectLevelLineMouseupHandler(evt) {
 
 /**
  * Обрабатывает нажатие на любой из предпросмотров фильтра
- * @param {Event} evt
+ * @param {MouseEvent} evt
  */
 function pictureEffectPreviewInputClickHandler(evt) {
   currentFilter = EFFECT_NAME_TO_FILTER_MAP[evt.target.value];
@@ -534,7 +534,7 @@ function pictureEffectPreviewInputClickHandler(evt) {
 
 /**
  *
- * @param {Event} evt
+ * @param {InputEvent} evt
  */
 function textHashtagInputHandler(evt) {
   textHashtagInputNode.setCustomValidity('');
