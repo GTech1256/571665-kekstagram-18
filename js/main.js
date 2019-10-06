@@ -19,6 +19,11 @@
   // Прячет загрузку новых комментариев
   document.querySelector('.comments-loader').classList.add('visually-hidden');
 
+  /* EVENTS:listeners */
+  window.pictureFormValidator.snapListeners();
+  window.pictureFormEffects.snapListeners();
+  window.picturePreview.snapListeners();
+
 })();
 
 

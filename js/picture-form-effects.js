@@ -281,30 +281,38 @@
     setEffectLevelNewValue(MAX_PERCENT_OF_FILTER_VALUE);
   }
 
+  window.pictureFormEffects = {
+    /**
+     * Экпортируемая функция модуля
+     * Для запуска всех слушателей событий
+     * Для этого модуля
+     */
+    snapListeners: function () {
+      /* EVENTS:listeners */
 
-  /* EVENTS:listeners */
-  pictureUploadInputNode.addEventListener('change', uploadFileChangeHandler);
+      pictureUploadInputNode.addEventListener('change', uploadFileChangeHandler);
 
-  document.querySelector('.img-upload__cancel.cancel').addEventListener('click', function () {
-    closePictureEditorForm();
-  });
+      document.querySelector('.img-upload__cancel.cancel').addEventListener('click', function () {
+        closePictureEditorForm();
+      });
 
-  pictureEffectPreviewInputNodes.forEach(function (node) {
-    node.addEventListener('click', pictureEffectPreviewInputClickHandler);
-  });
+      pictureEffectPreviewInputNodes.forEach(function (node) {
+        node.addEventListener('click', pictureEffectPreviewInputClickHandler);
+      });
 
-  effectLevelLineNode.addEventListener('mouseup', effectLevelLineMouseupHandler);
+      effectLevelLineNode.addEventListener('mouseup', effectLevelLineMouseupHandler);
 
-  scaleControlBiggerNode.addEventListener('click', function () {
-    changeByStepPictureScale(true);
-  });
-  scaleControlSmallerNode.addEventListener('click', function () {
-    changeByStepPictureScale(false);
-  });
+      scaleControlBiggerNode.addEventListener('click', function () {
+        changeByStepPictureScale(true);
+      });
+      scaleControlSmallerNode.addEventListener('click', function () {
+        changeByStepPictureScale(false);
+      });
 
-  scaleControlValueNode.addEventListener('change', function () {
-    pictureUploadPreviewImgNode.style.transform = 'scale(' + scaleControlValueNode.value / 100 + ')';
-  });
-
+      scaleControlValueNode.addEventListener('change', function () {
+        pictureUploadPreviewImgNode.style.transform = 'scale(' + scaleControlValueNode.value / 100 + ')';
+      });
+    }
+  };
 
 })();

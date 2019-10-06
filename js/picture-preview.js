@@ -77,16 +77,22 @@
     window.utils.keydownEscEventWrapper(closeBigPicture)(evt);
   }
 
-  /* EVENTS:listeners */
-
-  bigPictureNode.querySelector('.big-picture__cancel').addEventListener('click', function () {
-    closeBigPicture();
-  });
-
   /* EXPORT */
 
   window.picturePreview = {
-    fillBigPictureNodeBy: fillBigPictureNodeBy
+    fillBigPictureNodeBy: fillBigPictureNodeBy,
+    /**
+     * Экпортируемая функция модуля
+     * Для запуска всех слушателей событий
+     * Для этого модуля
+     */
+    snapListeners: function () {
+      /* EVENTS:listeners */
+
+      bigPictureNode.querySelector('.big-picture__cancel').addEventListener('click', function () {
+        closeBigPicture();
+      });
+    }
   };
 
 })();

@@ -97,7 +97,17 @@
     hashtags.forEach(hashtagValidator);
   }
 
-  /* EVENTS:listeners */
+  window.pictureFormValidator = {
+    /**
+     * Экпортируемая функция модуля
+     * Для запуска всех слушателей событий
+     * Для этого модуля
+     */
+    snapListeners: function () {
+      /* EVENTS:listeners */
 
-  textHashtagInputNode.addEventListener('input', textHashtagInputHandler);
+      textHashtagInputNode.addEventListener('input', textHashtagInputHandler);
+    }
+  };
+
 })();
