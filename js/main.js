@@ -2,17 +2,20 @@
 
 (function () {
 
-  /* CONSTANTS */
+  /* CB FUNCTIONS */
 
-  var PHOTOS_COUNT = 25;
+  function loadPicturesEndHandler(pictures) {
+    window.pictureRender.renderGeneratedPictures(pictures);
+    window.picturePreview.fillBigPictureNodeBy(pictures[0]);
+  }
 
 
   /* MAIN */
 
-  var generatedPictures = window.pictureRender.getGeneratedPictures(PHOTOS_COUNT);
-
-  window.pictureRender.renderGeneratedPictures(generatedPictures);
-  window.picturePreview.fillBigPictureNodeBy(generatedPictures[0]);
+  window.backend.loadPictures(
+      loadPicturesEndHandler,
+      window.utils.showErrorMessage
+  );
 
   // Прячет блоки счётчика комментариев
   document.querySelector('.social__comment-count').classList.add('visually-hidden');

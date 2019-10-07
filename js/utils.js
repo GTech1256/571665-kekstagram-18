@@ -3,10 +3,21 @@
 (function () {
 
   /* CONSTANTS */
+
   var ESC_KEYCODE = 27;
   var MINUS_KEYCODE = 109;
   var PLUS_KEYCODE = 107;
   var ENTER_KEYCODE = 13;
+  var errorClassName = '.error';
+
+
+  /* VARIABLES */
+
+  var errorTemplate = document.querySelector('#error').content;
+  var errorNode = document.querySelector(errorClassName);
+
+
+  /* FUNCTIONS */
 
   /**
    * @param {number} min
@@ -88,6 +99,31 @@
     };
   }
 
+  /**
+   * @param {string} errorMessage
+   */
+  function showErrorMessage(errorMessage) {
+    if (!errorNode) {
+      renderErrorNode();
+    }
+
+    setErrorNodeMessage(errorMessage);
+  }
+
+  function renderErrorNode() {
+    var errorCloneNode = errorTemplate.cloneNode(true);
+
+    document.body.appendChild(errorCloneNode);
+    errorNode = document.querySelector(errorClassName);
+  }
+
+  /**
+   * @param {string} errorMessage
+   */
+  function setErrorNodeMessage(errorMessage) {
+    errorNode.querySelector('.error__title').textContent = errorMessage;
+  }
+
   /* EXPORT */
 
   window.utils = {
@@ -98,7 +134,8 @@
     keydownEscEventWrapper: keydownEscEventWrapper,
     keydownEnterEventWrapper: keydownEnterEventWrapper,
     MINUS_KEYCODE: MINUS_KEYCODE,
-    PLUS_KEYCODE: PLUS_KEYCODE
+    PLUS_KEYCODE: PLUS_KEYCODE,
+    showErrorMessage: showErrorMessage
   };
 })();
 
