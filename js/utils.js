@@ -117,6 +117,9 @@
     errorNode = document.querySelector(errorClassName);
   }
 
+  /**
+   * @param {string} errorMessage
+   */
   function setErrorNodeMessage(errorMessage) {
     errorNode.querySelector('.error__title').textContent = errorMessage;
   }
