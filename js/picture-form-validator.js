@@ -102,10 +102,6 @@
    * @param {InputEvent} evt
    */
   function textHashtagInputHandler(evt) {
-    // if (evt.target.value.trim() === '') {
-    //   return;
-    // }
-
     var hashtags = evt.target.value.trim().toLowerCase().split(' ');
 
     if (hashtags.length > 5) {
@@ -117,11 +113,6 @@
   }
 
   function textDescriptionInputHandler(evt) {
-    // if (evt.target.value.trim() === '') {
-    //   return;
-    // }
-
-
     descriptionValidator(evt.target.value);
   }
 
