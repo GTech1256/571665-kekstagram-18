@@ -59,12 +59,12 @@
 
   function openBigPicture() {
     bigPictureNode.classList.remove('hidden');
-    document.addEventListener('keydown', bigPictureEscPressHandler);
+    document.addEventListener('keydown', window.utils.keydownEscEventWrapper(closeBigPicture));
   }
 
   function closeBigPicture() {
     bigPictureNode.classList.add('hidden');
-    document.removeEventListener('keydown', bigPictureEscPressHandler);
+    document.removeEventListener('keydown', window.utils.keydownEscEventWrapper(closeBigPicture));
   }
 
 
@@ -72,13 +72,6 @@
 
 
   /* EVENTS:controls */
-
-  /**
-   * @param {KeyboardEvent} evt
-   */
-  function bigPictureEscPressHandler(evt) {
-    window.utils.keydownEscEventWrapper(closeBigPicture)(evt);
-  }
 
 
   /* EVENTS:listeners */
