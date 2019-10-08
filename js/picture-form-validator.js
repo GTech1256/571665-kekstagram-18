@@ -13,6 +13,7 @@
     notOnlyHash: 'хеш-тег не может состоять только из одной решётки'
   };
 
+
   /* VARIABLES */
 
   var textHashtagInputNode = document.querySelector('.text__hashtags');
@@ -74,6 +75,7 @@
 
   /* EVENTS */
 
+
   /* EVENTS:controls */
 
   /**
@@ -97,17 +99,23 @@
     hashtags.forEach(hashtagValidator);
   }
 
-  window.pictureFormValidator = {
-    /**
-     * Экпортируемая функция модуля
-     * Для запуска всех слушателей событий
-     * Для этого модуля
-     */
-    snapListeners: function () {
-      /* EVENTS:listeners */
 
-      textHashtagInputNode.addEventListener('input', textHashtagInputHandler);
-    }
+  /* EVENTS:listeners */
+
+  /**
+   * Экпортируемая функция модуля
+   * Для запуска всех слушателей событий
+   * Для этого модуля
+   */
+  function snapListeners() {
+    textHashtagInputNode.addEventListener('input', textHashtagInputHandler);
+  }
+
+
+  /* EXPORT */
+
+  window.pictureFormValidator = {
+    snapListeners: snapListeners
   };
 
 })();

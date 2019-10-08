@@ -11,6 +11,7 @@
 (function () {
 
   /* CONSTANTS */
+
   var PICTURE_UPLOAD_PREVIEW_IMG_DEFAULT_CLASS_NAME = 'img-upload__preview';
   var MAX_PERCENT_OF_FILTER_VALUE = 100;
   var FILTER_DEFAULT = {
@@ -58,6 +59,7 @@
     none: 'none'
   };
 
+
   /* VARIABLES */
 
   var pictureUploadInputNode = document.querySelector('#upload-file');
@@ -103,8 +105,8 @@
   }
 
   /**
- * @param {number} newValue 0 - 100
- */
+   * @param {number} newValue 0 - 100
+   */
   function setEffectLevelNewValue(newValue) {
     setEffectLevelPinPosition(newValue);
 
@@ -114,16 +116,16 @@
   }
 
   /**
- * @param {number} newPercentWidth 0 - 100
- */
+   * @param {number} newPercentWidth 0 - 100
+   */
   function setEffectLevelPinPosition(newPercentWidth) {
     effectLevelLPinNode.style.left = newPercentWidth + '%';
     effectLevelLDepthNode.style.width = newPercentWidth + '%';
   }
 
   /**
- * @param {number} newPercent 0 - 100
- */
+   * @param {number} newPercent 0 - 100
+   */
   function setEffectLevelInPictureEditor(newPercent) {
 
     if (currentFilter === EFFECT_NAME_TO_FILTER_MAP.none) {
@@ -137,8 +139,8 @@
   }
 
   /**
- * @param {number} newPercent 0 - 100
- */
+   * @param {number} newPercent 0 - 100
+   */
   function setFilterToPictureUploadPreviewNode(newPercent) {
     if (currentFilter === EFFECT_NAME_TO_FILTER_MAP.none) {
       pictureUploadPreviewNode.style.filter = '';
@@ -213,6 +215,7 @@
 
   /* EVENTS */
 
+
   /* EVENTS:controls */
 
   /**
@@ -281,38 +284,44 @@
     setEffectLevelNewValue(MAX_PERCENT_OF_FILTER_VALUE);
   }
 
+
+  /* EVENTS:listeners */
+
+  /**
+   * Экпортируемая функция модуля
+   * Для запуска всех слушателей событий
+   * Для этого модуля
+   */
+  function snapListeners() {
+    pictureUploadInputNode.addEventListener('change', uploadFileChangeHandler);
+
+    document.querySelector('.img-upload__cancel.cancel').addEventListener('click', function () {
+      closePictureEditorForm();
+    });
+
+    pictureEffectPreviewInputNodes.forEach(function (node) {
+      node.addEventListener('click', pictureEffectPreviewInputClickHandler);
+    });
+
+    effectLevelLineNode.addEventListener('mouseup', effectLevelLineMouseupHandler);
+
+    scaleControlBiggerNode.addEventListener('click', function () {
+      changeByStepPictureScale(true);
+    });
+    scaleControlSmallerNode.addEventListener('click', function () {
+      changeByStepPictureScale(false);
+    });
+
+    scaleControlValueNode.addEventListener('change', function () {
+      pictureUploadPreviewImgNode.style.transform = 'scale(' + scaleControlValueNode.value / 100 + ')';
+    });
+  }
+
+
+  /* EXPORT */
+
   window.pictureFormEffects = {
-    /**
-     * Экпортируемая функция модуля
-     * Для запуска всех слушателей событий
-     * Для этого модуля
-     */
-    snapListeners: function () {
-      /* EVENTS:listeners */
-
-      pictureUploadInputNode.addEventListener('change', uploadFileChangeHandler);
-
-      document.querySelector('.img-upload__cancel.cancel').addEventListener('click', function () {
-        closePictureEditorForm();
-      });
-
-      pictureEffectPreviewInputNodes.forEach(function (node) {
-        node.addEventListener('click', pictureEffectPreviewInputClickHandler);
-      });
-
-      effectLevelLineNode.addEventListener('mouseup', effectLevelLineMouseupHandler);
-
-      scaleControlBiggerNode.addEventListener('click', function () {
-        changeByStepPictureScale(true);
-      });
-      scaleControlSmallerNode.addEventListener('click', function () {
-        changeByStepPictureScale(false);
-      });
-
-      scaleControlValueNode.addEventListener('change', function () {
-        pictureUploadPreviewImgNode.style.transform = 'scale(' + scaleControlValueNode.value / 100 + ')';
-      });
-    }
+    snapListeners: snapListeners
   };
 
 })();

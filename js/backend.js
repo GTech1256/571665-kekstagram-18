@@ -14,6 +14,9 @@
     post: 'POST'
   };
 
+
+  /* FUNCTIONS */
+
   /**
    * Создает инстанс XHR с обработчиками и делает запрос
    *
@@ -49,8 +52,6 @@
     xhr.open(method, url);
     xhr.send(data);
   }
-
-  /* FUNCTIONS */
 
   /**
    * @param {function(*): void} onLoad
