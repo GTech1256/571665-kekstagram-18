@@ -4,6 +4,9 @@
 
   /* CONSTANTS */
 
+  var DESCRIPTION_VALIDATOR_MESSAGE = {
+    toLong: 'Длина комментария не может составлять больше 140 символов'
+  };
   var HASHTAG_VALIDATOR_MESSAGE = {
     toMany: 'Нельзя указать больше пяти хэш-тегов',
     toLong: 'максимальная длина одного хэш-тега 20 символов, включая решётку',
@@ -17,6 +20,7 @@
   /* VARIABLES */
 
   var textHashtagInputNode = document.querySelector('.text__hashtags');
+  var textDescriptionInputNode = document.querySelector('.text__description');
 
 
   /* FUNCTIONS */
@@ -56,10 +60,25 @@
   }
 
   /**
+   * Валидация каждого комментария
+   *
+   * @param {string} comment
+   */
+  function descriptionValidator(comment) {
+
+    inputNodeValidatorConstruct(textDescriptionInputNode)
+    .makeCandidateVerification(
+        comment.length > 140,
+        DESCRIPTION_VALIDATOR_MESSAGE.toLong
+    );
+  }
+
+  /**
    * @param {Node} inputNode
    * @return {{ makeCandidateVerification: function(boolean, string) }}
    */
   function inputNodeValidatorConstruct(inputNode) {
+    inputNode.setCustomValidity('');
 
     function makeCandidateVerification(condition, message) {
       if (condition) {
@@ -83,11 +102,9 @@
    * @param {InputEvent} evt
    */
   function textHashtagInputHandler(evt) {
-    textHashtagInputNode.setCustomValidity('');
-
-    if (evt.target.value.trim() === '') {
-      return;
-    }
+    // if (evt.target.value.trim() === '') {
+    //   return;
+    // }
 
     var hashtags = evt.target.value.trim().toLowerCase().split(' ');
 
@@ -97,6 +114,15 @@
     }
 
     hashtags.forEach(hashtagValidator);
+  }
+
+  function textDescriptionInputHandler(evt) {
+    // if (evt.target.value.trim() === '') {
+    //   return;
+    // }
+
+
+    descriptionValidator(evt.target.value);
   }
 
 
@@ -109,6 +135,7 @@
    */
   function snapListeners() {
     textHashtagInputNode.addEventListener('input', textHashtagInputHandler);
+    textDescriptionInputNode.addEventListener('input', textDescriptionInputHandler);
   }
 
 
