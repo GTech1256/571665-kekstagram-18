@@ -6,8 +6,6 @@
 
   var pictureTemplate = document.querySelector('#picture').content;
   var picturesNode = document.querySelector('.pictures');
-  /** @type {Picture[]} */
-  var generatedPicturesFromBackend = [];
 
 
   /* FUNCTIONS */
@@ -35,8 +33,6 @@
    * @param {Picture[]} generatedPictures
    */
   function renderGeneratedPictures(generatedPictures) {
-    generatedPicturesFromBackend = generatedPictures;
-
     var fragment = document.createDocumentFragment();
 
     generatedPictures.forEach(function (item, i) {
