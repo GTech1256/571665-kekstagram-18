@@ -54,7 +54,7 @@
    * @param {HTMLImageElement} imageNode
    * @return {string}
    */
-  function getPictureIDFromImageNode(imageNode) {
+  function getPictureIdFromImageNode(imageNode) {
     return new URL(imageNode.src)
     .pathname
     .match(/[1-9]/g)
@@ -102,7 +102,7 @@
       return;
     }
 
-    var pictureId = getPictureIDFromImageNode(target);
+    var pictureId = getPictureIdFromImageNode(target);
 
     window.picturePreview.fillBigPictureNodeBy(generatedPicturesFromBackend[pictureId - 1]);
   }
