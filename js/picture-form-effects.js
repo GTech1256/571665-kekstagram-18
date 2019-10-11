@@ -80,6 +80,11 @@
   var scaleControlBiggerNode = document.querySelector('.scale__control--bigger');
   var scaleControlSmallerNode = document.querySelector('.scale__control--smaller');
 
+  // var current = {
+  //   x: 0,
+  //   y: 0
+  // };
+
 
   /* FUNCTIONS */
 
@@ -254,7 +259,7 @@
    *
    * @param {MouseEvent} evt
    */
-  function effectLevelLineMouseupHandler(evt) {
+  function effectLevelLineMousedownHandler(evt) {
     if (evt.target === effectLevelLPinNode) {
       return;
     }
@@ -262,6 +267,25 @@
     var percentsOffset = MAX_PERCENT_OF_FILTER_VALUE / effectLevelLineNode.offsetWidth * evt.offsetX;
     // percentsOffset = getCorrectValueBetween(0, 100);
     setEffectLevelNewValue(percentsOffset);
+
+    document.addEventListener('mouseup', effectLevelLineMouseupHandler);
+    document.addEventListener('mousemove', effectLevelLineMousemoveHandler);
+  }
+
+  function effectLevelLineMousemoveHandler() {
+    console.log('move');
+  }
+
+  /**
+   * При отпускании кнопки мышки, все слушатели евентов с мышкой снимаются
+   *
+   * @param {MouseEvent} evt
+   */
+  function effectLevelLineMouseupHandler(evt) {
+    evt.preventDefault();
+
+    document.removeEventListener('mousemove', effectLevelLineMousemoveHandler);
+    document.removeEventListener('mouseup', effectLevelLineMouseupHandler);
   }
 
   /* - pictureEffectPreviewNode */
@@ -303,7 +327,7 @@
       node.addEventListener('click', pictureEffectPreviewInputClickHandler);
     });
 
-    effectLevelLineNode.addEventListener('mouseup', effectLevelLineMouseupHandler);
+    effectLevelLineNode.addEventListener('mousedown', effectLevelLineMousedownHandler);
 
     scaleControlBiggerNode.addEventListener('click', function () {
       changeByStepPictureScale(true);

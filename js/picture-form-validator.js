@@ -35,7 +35,7 @@
    */
   function hashtagValidator(hashtag, index, allHashtags) {
 
-    inputNodeValidatorConstruct(textHashtagInputNode)
+    getInputNodeValidatorConstructor(textHashtagInputNode)
     .makeCandidateVerification(
         hashtag.length > 20,
         hashtag + ': ' + HASHTAG_VALIDATOR_MESSAGE.toLong
@@ -66,7 +66,7 @@
    */
   function descriptionValidator(comment) {
 
-    inputNodeValidatorConstruct(textDescriptionInputNode)
+    getInputNodeValidatorConstructor(textDescriptionInputNode)
     .makeCandidateVerification(
         comment.length > 140,
         DESCRIPTION_VALIDATOR_MESSAGE.toLong
@@ -77,7 +77,7 @@
    * @param {Node} inputNode
    * @return {{ makeCandidateVerification: function(boolean, string) }}
    */
-  function inputNodeValidatorConstruct(inputNode) {
+  function getInputNodeValidatorConstructor(inputNode) {
     inputNode.setCustomValidity('');
 
     function makeCandidateVerification(condition, message) {
