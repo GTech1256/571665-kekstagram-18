@@ -265,27 +265,8 @@
     }
 
     var percentsOffset = MAX_PERCENT_OF_FILTER_VALUE / effectLevelLineNode.offsetWidth * evt.offsetX;
-    // percentsOffset = getCorrectValueBetween(0, 100);
+
     setEffectLevelNewValue(percentsOffset);
-
-    document.addEventListener('mouseup', effectLevelLineMouseupHandler);
-    document.addEventListener('mousemove', effectLevelLineMousemoveHandler);
-  }
-
-  function effectLevelLineMousemoveHandler() {
-    console.log('move');
-  }
-
-  /**
-   * При отпускании кнопки мышки, все слушатели евентов с мышкой снимаются
-   *
-   * @param {MouseEvent} evt
-   */
-  function effectLevelLineMouseupHandler(evt) {
-    evt.preventDefault();
-
-    document.removeEventListener('mousemove', effectLevelLineMousemoveHandler);
-    document.removeEventListener('mouseup', effectLevelLineMouseupHandler);
   }
 
   /* - pictureEffectPreviewNode */
