@@ -35,7 +35,7 @@
    * @param {Picture[]} generatedPictures
    */
   function renderGeneratedPictures(generatedPictures) {
-    generatedPicturesFromBackend = generatedPictures;
+    generatedPicturesFromBackend = generatedPictures.slice();
 
     var fragment = document.createDocumentFragment();
 
