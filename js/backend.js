@@ -15,6 +15,14 @@
   };
 
 
+  /* VARIABLES */
+
+  var cachedPictures = {
+    lastUpdate: -1,
+    data: []
+  };
+
+
   /* FUNCTIONS */
 
   /**
@@ -56,9 +64,27 @@
   /**
    * @param {function(*): void} onLoad
    * @param {function(string): void} onError
+   * @param {boolean} isUseCachedData
    */
-  function loadPictures(onLoad, onError) {
-    makeXHR(onLoad, onError, API_LINK.picture, METHOD.get);
+  function getPictures(onLoad, onError, isUseCachedData) {
+    if (isUseCachedData && cachedPictures.lastUpdate > 0) {
+      onLoad(cachedPictures.data);
+      return;
+    }
+
+    makeXHR(
+        function (pictures) {
+          cachedPictures = {
+            lastUpdate: new Date().getTime(),
+            data: pictures
+          };
+
+          onLoad(cachedPictures.data);
+        },
+        onError,
+        API_LINK.picture,
+        METHOD.get
+    );
   }
 
   /**
@@ -73,7 +99,7 @@
   /* EXPORT */
 
   window.backend = {
-    loadPictures: loadPictures,
+    getPictures: getPictures,
     // save: save
   };
 })();

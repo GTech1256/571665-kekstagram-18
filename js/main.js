@@ -12,9 +12,10 @@
 
   /* MAIN */
 
-  window.backend.loadPictures(
+  window.backend.getPictures(
       loadPicturesEndHandler,
-      window.utils.showErrorMessage
+      window.utils.showErrorMessage,
+      false
   );
 
   // Прячет блоки счётчика комментариев
