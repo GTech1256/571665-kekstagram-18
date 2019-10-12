@@ -105,7 +105,7 @@
           window.picturePreview.fillBigPictureNodeBy(pictures[pictureId - 1]);
         },
         window.utils.showErrorMessage,
-        false
+        true
     );
 
   }
