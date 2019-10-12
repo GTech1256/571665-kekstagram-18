@@ -6,8 +6,6 @@
 
   var pictureTemplate = document.querySelector('#picture').content;
   var picturesNode = document.querySelector('.pictures');
-  /** @type {Picture[]} */
-  var generatedPicturesFromBackend = [];
 
 
   /* FUNCTIONS */
@@ -35,8 +33,6 @@
    * @param {Picture[]} generatedPictures
    */
   function renderGeneratedPictures(generatedPictures) {
-    generatedPicturesFromBackend = generatedPictures.slice();
-
     var fragment = document.createDocumentFragment();
 
     generatedPictures.forEach(function (item, i) {
@@ -104,7 +100,14 @@
 
     var pictureId = getPictureIdFromImageNode(target);
 
-    window.picturePreview.fillBigPictureNodeBy(generatedPicturesFromBackend[pictureId - 1]);
+    window.backend.getPictures(
+        function (pictures) {
+          window.picturePreview.fillBigPictureNodeBy(pictures[pictureId - 1]);
+        },
+        window.utils.showErrorMessage,
+        false
+    );
+
   }
 
 
