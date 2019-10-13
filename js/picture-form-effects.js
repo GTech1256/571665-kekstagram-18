@@ -80,11 +80,6 @@
   var scaleControlBiggerNode = document.querySelector('.scale__control--bigger');
   var scaleControlSmallerNode = document.querySelector('.scale__control--smaller');
 
-  // var current = {
-  //   x: 0,
-  //   y: 0
-  // };
-
 
   /* FUNCTIONS */
 
