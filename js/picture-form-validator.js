@@ -33,7 +33,7 @@
    * @param {number} index
    * @param {string[]} allHashtags
    */
-  function hashtagValidator(hashtag, index, allHashtags) {
+  function validateHashtag(hashtag, index, allHashtags) {
 
     getInputNodeValidatorConstructor(textHashtagInputNode)
     .makeCandidateVerification(
@@ -64,7 +64,7 @@
    *
    * @param {string} comment
    */
-  function descriptionValidator(comment) {
+  function validateDescription(comment) {
 
     getInputNodeValidatorConstructor(textDescriptionInputNode)
     .makeCandidateVerification(
@@ -109,11 +109,11 @@
       return;
     }
 
-    hashtags.forEach(hashtagValidator);
+    hashtags.forEach(validateHashtag);
   }
 
   function textDescriptionInputHandler(evt) {
-    descriptionValidator(evt.target.value);
+    validateDescription(evt.target.value);
   }
 
 
