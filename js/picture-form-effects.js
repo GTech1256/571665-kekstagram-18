@@ -35,8 +35,8 @@
     units: '',
   };
   /**
- * @type {Object<string, FILTER_DESCRIPTOR>}
- */
+   * @type {Object<string, FILTER_DESCRIPTOR>}
+   */
   var FILTER_MAP = {
     invert: FILTER_INVERT,
     blur: FILTER_BLUR,
