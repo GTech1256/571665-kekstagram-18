@@ -5,11 +5,11 @@
   /* CONSTANTS */
 
   var DESCRIPTION_VALIDATOR_MESSAGE = {
-    toLong: 'Длина комментария не может составлять больше 140 символов'
+    tooLong: 'Длина комментария не может составлять больше 140 символов'
   };
   var HASHTAG_VALIDATOR_MESSAGE = {
-    toMany: 'Нельзя указать больше пяти хэш-тегов',
-    toLong: 'максимальная длина одного хэш-тега 20 символов, включая решётку',
+    tooMany: 'Нельзя указать больше пяти хэш-тегов',
+    tooLong: 'максимальная длина одного хэш-тега 20 символов, включая решётку',
     firstSymbol: 'хэш-тег должен начинатся с символа # (решётка)',
     spaceRequire: 'хеш-тег должны разделяться пробелами',
     unique: 'один и тот же хэш-тег не может быть использован дважды',
@@ -40,7 +40,7 @@
     getInputNodeValidatorConstructor(textHashtagInputNode)
     .makeCandidateVerification(
         hashtag.length > THE_MAXIMUM_LENGTH_OF_A_HASHTAG,
-        hashtag + ': ' + HASHTAG_VALIDATOR_MESSAGE.toLong
+        hashtag + ': ' + HASHTAG_VALIDATOR_MESSAGE.tooLong
     )
     .makeCandidateVerification(
         hashtag.split('#').length > 2,
@@ -71,7 +71,7 @@
     getInputNodeValidatorConstructor(textDescriptionInputNode)
     .makeCandidateVerification(
         comment.length > THE_MAXIMUM_LENGTH_OF_THE_COMMENT,
-        DESCRIPTION_VALIDATOR_MESSAGE.toLong
+        DESCRIPTION_VALIDATOR_MESSAGE.tooLong
     );
   }
 
@@ -107,7 +107,7 @@
     var hashtags = evt.target.value.trim().toLowerCase().split(' ');
 
     if (hashtags.length > 5) {
-      textHashtagInputNode.setCustomValidity(HASHTAG_VALIDATOR_MESSAGE.toMany);
+      textHashtagInputNode.setCustomValidity(HASHTAG_VALIDATOR_MESSAGE.tooMany);
       return;
     }
 
