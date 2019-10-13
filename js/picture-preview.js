@@ -52,47 +52,47 @@
     openBigPicture();
   }
 
+
   /* BUSINESS LOGIC */
 
   /* - BigPicture */
 
   function openBigPicture() {
     bigPictureNode.classList.remove('hidden');
-    document.addEventListener('keydown', bigPictureEscPressHandler);
+    document.addEventListener('keydown', window.utils.keydownEscEventWrapper(closeBigPicture));
   }
 
   function closeBigPicture() {
     bigPictureNode.classList.add('hidden');
-    document.removeEventListener('keydown', bigPictureEscPressHandler);
+    document.removeEventListener('keydown', window.utils.keydownEscEventWrapper(closeBigPicture));
   }
+
 
   /* EVENTS */
 
+
   /* EVENTS:controls */
 
+
+  /* EVENTS:listeners */
+
   /**
-   * @param {KeyboardEvent} evt
+   * Экпортируемая функция модуля
+   * Для запуска всех слушателей событий
+   * Для этого модуля
    */
-  function bigPictureEscPressHandler(evt) {
-    window.utils.keydownEscEventWrapper(closeBigPicture)(evt);
+  function snapListeners() {
+    bigPictureNode.querySelector('.big-picture__cancel').addEventListener('click', function () {
+      closeBigPicture();
+    });
   }
+
 
   /* EXPORT */
 
   window.picturePreview = {
     fillBigPictureNodeBy: fillBigPictureNodeBy,
-    /**
-     * Экпортируемая функция модуля
-     * Для запуска всех слушателей событий
-     * Для этого модуля
-     */
-    snapListeners: function () {
-      /* EVENTS:listeners */
-
-      bigPictureNode.querySelector('.big-picture__cancel').addEventListener('click', function () {
-        closeBigPicture();
-      });
-    }
+    snapListeners: snapListeners
   };
 
 })();

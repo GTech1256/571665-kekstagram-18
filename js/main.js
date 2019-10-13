@@ -12,9 +12,10 @@
 
   /* MAIN */
 
-  window.backend.loadPictures(
+  window.backend.getPictures(
       loadPicturesEndHandler,
-      window.utils.showErrorMessage
+      window.utils.showErrorMessage,
+      false
   );
 
   // Прячет блоки счётчика комментариев
@@ -22,7 +23,9 @@
   // Прячет загрузку новых комментариев
   document.querySelector('.comments-loader').classList.add('visually-hidden');
 
+
   /* EVENTS:listeners */
+  window.window.pictureRender.snapListeners();
   window.pictureFormValidator.snapListeners();
   window.pictureFormEffects.snapListeners();
   window.picturePreview.snapListeners();

@@ -58,7 +58,9 @@
    * @return {boolean}
    */
   function isTargetInput(evt) {
-    return evt.target && (evt.target.name || evt.target.tagName === 'INPUT');
+    var targetIsInput = evt.target.name || evt.target.tagName === 'INPUT';
+
+    return evt.target && targetIsInput && evt.target.getAttribute('type') !== 'file';
   }
 
   /**
@@ -123,6 +125,7 @@
   function setErrorNodeMessage(errorMessage) {
     errorNode.querySelector('.error__title').textContent = errorMessage;
   }
+
 
   /* EXPORT */
 
