@@ -15,6 +15,8 @@
     unique: 'один и тот же хэш-тег не может быть использован дважды',
     notOnlyHash: 'хеш-тег не может состоять только из одной решётки'
   };
+  var THE_MAXIMUM_LENGTH_OF_A_HASHTAG = 20;
+  var THE_MAXIMUM_LENGTH_OF_THE_COMMENT = 140;
 
 
   /* VARIABLES */
@@ -37,7 +39,7 @@
 
     getInputNodeValidatorConstructor(textHashtagInputNode)
     .makeCandidateVerification(
-        hashtag.length > 20,
+        hashtag.length > THE_MAXIMUM_LENGTH_OF_A_HASHTAG,
         hashtag + ': ' + HASHTAG_VALIDATOR_MESSAGE.toLong
     )
     .makeCandidateVerification(
@@ -68,7 +70,7 @@
 
     getInputNodeValidatorConstructor(textDescriptionInputNode)
     .makeCandidateVerification(
-        comment.length > 140,
+        comment.length > THE_MAXIMUM_LENGTH_OF_THE_COMMENT,
         DESCRIPTION_VALIDATOR_MESSAGE.toLong
     );
   }
