@@ -77,7 +77,7 @@
      * Вызывает callback с переданным KeyboardEvent в 1 параметре, если был нажат ESC
      *
      * @param {Function} cb
-     * @return {function(KeyboardEvent)}
+     * @return {function(KeyboardEvent):void}
      */
   function keydownEscEventWrapper(cb) {
     return function (evt) {
@@ -126,6 +126,25 @@
     errorNode.querySelector('.error__title').textContent = errorMessage;
   }
 
+  /**
+   * количество элементов должно быть больше count
+   * @param {Array} elements
+   * @param {number} count
+   * @return {Array}
+   */
+  function getRandomElements(elements, count) {
+    var res = [];
+    var localElements = elements.slice();
+
+    for (var i = 0; i < count; i++) {
+      res.push(
+          localElements.splice(Math.floor(Math.random() * localElements.length - 1), 1)[0]
+      );
+    }
+
+    return res;
+  }
+
 
   /* EXPORT */
 
@@ -138,7 +157,8 @@
     keydownEnterEventWrapper: keydownEnterEventWrapper,
     MINUS_KEYCODE: MINUS_KEYCODE,
     PLUS_KEYCODE: PLUS_KEYCODE,
-    showErrorMessage: showErrorMessage
+    showErrorMessage: showErrorMessage,
+    getRandomElements: getRandomElements
   };
 })();
 
