@@ -43,7 +43,19 @@
       );
     });
 
+    removeAllRenderedPuctures();
+
     picturesNode.appendChild(fragment);
+  }
+
+  function removeAllRenderedPuctures() {
+    Array.from(picturesNode.children).forEach(function (node) {
+
+      if (node.tagName === 'A') {
+        node.remove();
+      }
+
+    });
   }
 
   /**
@@ -53,7 +65,7 @@
   function getPictureIdFromImageNode(imageNode) {
     return new URL(imageNode.src)
     .pathname
-    .match(/[1-9]/g)
+    .match(/[0-9]/g)
     .join('');
   }
 
