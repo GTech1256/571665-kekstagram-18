@@ -84,24 +84,17 @@
   /* FUNCTIONS */
 
   /**
-   * Реализует отображение настоящего изображения,
-   * переданого в file[type="file"]
-   *
-   * @param {*} file
+   * @param {String} pictureSrc
    */
-  function setUploadFilePictureToPreviewsNodes(file) {
-    var reader = new FileReader();
+  function setPictureToPreviewsNodes(pictureSrc) {
 
-    reader.onload = function (readerEvt) {
-      pictureUploadPreviewImgNode.src = readerEvt.target.result;
-      pictureEffectPreviewNodes.forEach(function (node) {
-        node.style.backgroundImage = 'url(' + readerEvt.target.result + ')';
-      });
+    pictureUploadPreviewImgNode.src = pictureSrc;
 
-      openPictureEditorForm();
-    };
+    pictureEffectPreviewNodes.forEach(function (node) {
+      node.style.backgroundImage = 'url(' + pictureSrc + ')';
+    });
 
-    reader.readAsDataURL(file);
+    openPictureEditorForm();
   }
 
   /**
@@ -242,7 +235,11 @@
    */
   function uploadFileChangeHandler(evt) {
     if (evt.target.files && evt.target.files[0]) {
-      setUploadFilePictureToPreviewsNodes(evt.target.files[0]);
+      window.utils.readBlobFile(
+          evt.target.files[0],
+          setPictureToPreviewsNodes,
+          window.utils.showErrorMessage
+      );
     }
   }
 
