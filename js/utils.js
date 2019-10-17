@@ -8,13 +8,14 @@
   var MINUS_KEYCODE = 109;
   var PLUS_KEYCODE = 107;
   var ENTER_KEYCODE = 13;
-  var errorClassName = '.error';
+  var CORRECT_FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png', 'wepb'];
+  var ERROR_CLASS_NAME = '.error';
 
 
   /* VARIABLES */
 
   var errorTemplate = document.querySelector('#error').content;
-  var errorNode = document.querySelector(errorClassName);
+  var errorNode = document.querySelector(ERROR_CLASS_NAME);
 
 
   /* FUNCTIONS */
@@ -116,7 +117,7 @@
     var errorCloneNode = errorTemplate.cloneNode(true);
 
     document.body.appendChild(errorCloneNode);
-    errorNode = document.querySelector(errorClassName);
+    errorNode = document.querySelector(ERROR_CLASS_NAME);
   }
 
   /**
@@ -145,6 +146,36 @@
     return res;
   }
 
+  /**
+   * @param {Blob} blobFile
+   * @param {function(string): void} loadHandler
+   * @param {function(string): void} errorHandler
+   */
+  function readBlobFile(blobFile, loadHandler, errorHandler) {
+    var fileName = blobFile.name.toLowerCase();
+
+    var isCorrectFileType = CORRECT_FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+
+
+    if (!isCorrectFileType) {
+      errorHandler('Формат файла не подходит, нужен один из следующих: ' + CORRECT_FILE_TYPES.join(', '));
+      return;
+    }
+    var reader = new FileReader();
+
+    reader.onload = function () {
+      loadHandler(reader.result);
+    };
+
+    reader.onerror = function () {
+      errorHandler(reader.error.message);
+    };
+
+    reader.readAsDataURL(blobFile);
+  }
+
 
   /* EXPORT */
 
@@ -158,7 +189,8 @@
     MINUS_KEYCODE: MINUS_KEYCODE,
     PLUS_KEYCODE: PLUS_KEYCODE,
     showErrorMessage: showErrorMessage,
-    getRandomElements: getRandomElements
+    getRandomElements: getRandomElements,
+    readBlobFile: readBlobFile
   };
 })();
 
