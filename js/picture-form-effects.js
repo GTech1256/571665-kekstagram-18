@@ -14,6 +14,7 @@
 
   var PICTURE_UPLOAD_PREVIEW_IMG_DEFAULT_CLASS_NAME = 'img-upload__preview';
   var MAX_PERCENT_OF_FILTER_VALUE = 100;
+  var MIN_PERCENT_OF_FILTER_VALUE = 0;
   var FILTER_DEFAULT = {
     min: 0,
     max: 1,
@@ -69,7 +70,6 @@
   var pictureEffectPreviewNodes = document.querySelectorAll('.effects__preview');
   var pictureEffectPreviewInputNodes = document.querySelectorAll('.effects__radio');
 
-  var currentFilter = EFFECT_NAME_TO_FILTER_MAP.none;
   var effectLevelNode = document.querySelector('.effect-level');
   var effectLevelLPinNode = document.querySelector('.effect-level__pin');
   var effectLevelLineNode = document.querySelector('.effect-level__line');
@@ -80,8 +80,14 @@
   var scaleControlBiggerNode = document.querySelector('.scale__control--bigger');
   var scaleControlSmallerNode = document.querySelector('.scale__control--smaller');
 
+  var currentFilter = EFFECT_NAME_TO_FILTER_MAP.none;
+  var startCoordsOfPinOnXPlane = getStartCoordsOfPinOnXPlane();
 
   /* FUNCTIONS */
+
+  function getStartCoordsOfPinOnXPlane() {
+    return 0;
+  }
 
   /**
    * @param {String} pictureSrc
@@ -101,6 +107,10 @@
    * @param {number} newValue 0 - 100
    */
   function setEffectLevelNewValue(newValue) {
+    if (newValue > MAX_PERCENT_OF_FILTER_VALUE || newValue < MIN_PERCENT_OF_FILTER_VALUE) {
+      return;
+    }
+
     setEffectLevelPinPosition(newValue);
 
     effectLevelLValueNode.value = newValue;
@@ -183,6 +193,7 @@
   function openPictureEditorForm() {
     setPictureScale(SCALE_CONTROL_CONSTRAINTS.default);
     setEffectLevelNewValue(MAX_PERCENT_OF_FILTER_VALUE);
+
     pictureEditorNode.classList.remove('hidden');
     document.addEventListener('keydown', pictureEditorFormKeyboardPressHandler);
   }
@@ -196,7 +207,7 @@
   }
 
 
-  /* BUSINESS LOGIC */
+  /* - EffectLevelLine */
 
   function hideEffectLevelLine() {
     effectLevelNode.classList.add('hidden');
@@ -206,8 +217,8 @@
     effectLevelNode.classList.remove('hidden');
   }
 
-  /* EVENTS */
 
+  /* EVENTS */
 
   /* EVENTS:controls */
 
@@ -259,6 +270,44 @@
     var percentsOffset = MAX_PERCENT_OF_FILTER_VALUE / effectLevelLineNode.offsetWidth * evt.offsetX;
 
     setEffectLevelNewValue(percentsOffset);
+
+    document.addEventListener('mousemove', documentMousemoveHandler);
+    document.addEventListener('mouseup', documentMousemoupHandler);
+  }
+
+  /**
+   * @param {MouseEvent} evt
+   */
+  function effectLevelPinMousedownHandler(evt) {
+    evt.preventDefault();
+
+    document.addEventListener('mousemove', documentMousemoveHandler);
+    document.addEventListener('mouseup', documentMousemoupHandler);
+  }
+
+  /**
+   * @param {MouseEvent} evt
+   */
+  function documentMousemoupHandler(evt) {
+    evt.preventDefault();
+
+    startCoordsOfPinOnXPlane = getStartCoordsOfPinOnXPlane();
+    document.removeEventListener('mousemove', documentMousemoveHandler);
+    document.removeEventListener('mouseup', documentMousemoupHandler);
+  }
+
+  /**
+   * @param {MouseEvent} evt
+   */
+  function documentMousemoveHandler(evt) {
+    evt.preventDefault();
+
+    var shift = startCoordsOfPinOnXPlane - evt.clientX;
+
+    var percentsOffset = MAX_PERCENT_OF_FILTER_VALUE / effectLevelLineNode.offsetWidth * (effectLevelLPinNode.offsetLeft - shift);
+    setEffectLevelNewValue(percentsOffset);
+
+    startCoordsOfPinOnXPlane = evt.clientX;
   }
 
   /* - pictureEffectPreviewNode */
@@ -301,6 +350,8 @@
     });
 
     effectLevelLineNode.addEventListener('mousedown', effectLevelLineMousedownHandler);
+
+    effectLevelLPinNode.addEventListener('mousedown', effectLevelPinMousedownHandler);
 
     scaleControlBiggerNode.addEventListener('click', function () {
       changeByStepPictureScale(true);
