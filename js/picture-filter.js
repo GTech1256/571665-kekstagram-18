@@ -77,6 +77,11 @@
           window.pictureRender.renderGeneratedPictures(pictures);
           break;
       }
+
+      imgFiltersButtonNodes.forEach(function (it) {
+        it.classList.remove('img-filters__button--active');
+      });
+      evt.target.classList.add('img-filters__button--active');
     };
   }
 
