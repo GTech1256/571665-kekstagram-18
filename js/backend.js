@@ -6,8 +6,9 @@
 
   var TIMEOUT = 10000; // 10s
   var RESPONSE_TYPE = 'json';
-  var API_LINK = {
+  var API_LINK_MAP = {
     picture: 'https://js.dump.academy/kekstagram/data',
+    form: 'https://js.dump.academy/kekstagram',
   };
   var METHOD = {
     get: 'GET',
@@ -32,7 +33,7 @@
    * @param {function(string): void} onError
    * @param {string} url путь HTTP
    * @param {('GET'|'POST')} method Метод HTTP
-   * @param {*} [data] данные HTTP
+   * @param {FormData} [data]
    */
   function makeXHR(onLoad, onError, url, method, data) {
     var xhr = new XMLHttpRequest();
@@ -82,24 +83,24 @@
           onLoad(cachedPictures.data);
         },
         onError,
-        API_LINK.picture,
+        API_LINK_MAP.picture,
         METHOD.get
     );
   }
 
   /**
-   * @param {FormData} data
    * @param {function(*): void} onLoad
    * @param {function(string): void} onError
+   * @param {FormData} data
    */
-  // function save(data, onLoad, onError) {
-  //   makeXHR(onLoad, onError, API_LINK.formSetupSend, METHOD.post, data);
-  // }
+  function sendForm(onLoad, onError, data) {
+    makeXHR(onLoad, onError, API_LINK_MAP.form, METHOD.post, data);
+  }
 
   /* EXPORT */
 
   window.backend = {
     getPictures: getPictures,
-    // save: save
+    sendForm: sendForm
   };
 })();

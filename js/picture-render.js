@@ -116,7 +116,7 @@
         function (pictures) {
           window.picturePreview.fillBigPictureNodeBy(pictures[pictureId - 1]);
         },
-        window.utils.showErrorMessage,
+        window.notification.showErrorMessage,
         true
     );
 

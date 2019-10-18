@@ -103,31 +103,6 @@
   }
 
   /**
-   * @param {string} errorMessage
-   */
-  function showErrorMessage(errorMessage) {
-    if (!errorNode) {
-      renderErrorNode();
-    }
-
-    setErrorNodeMessage(errorMessage);
-  }
-
-  function renderErrorNode() {
-    var errorCloneNode = errorTemplate.cloneNode(true);
-
-    document.body.appendChild(errorCloneNode);
-    errorNode = document.querySelector(ERROR_CLASS_NAME);
-  }
-
-  /**
-   * @param {string} errorMessage
-   */
-  function setErrorNodeMessage(errorMessage) {
-    errorNode.querySelector('.error__title').textContent = errorMessage;
-  }
-
-  /**
    * количество элементов должно быть больше count
    * @param {Array} elements
    * @param {number} count
@@ -188,9 +163,9 @@
     keydownEnterEventWrapper: keydownEnterEventWrapper,
     MINUS_KEYCODE: MINUS_KEYCODE,
     PLUS_KEYCODE: PLUS_KEYCODE,
-    showErrorMessage: showErrorMessage,
     getRandomElements: getRandomElements,
     readBlobFile: readBlobFile
   };
+
 })();
 
