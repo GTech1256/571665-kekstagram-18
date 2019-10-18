@@ -87,7 +87,6 @@
 
   function getStartCoordsOfPinOnXPlane() {
     return 0;
-    // return effectLevelLPinNode.getBoundingClientRect().left + ( width of effectLevelLPinNode / 2 );
   }
 
   /**
