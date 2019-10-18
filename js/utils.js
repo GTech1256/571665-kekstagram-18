@@ -9,13 +9,6 @@
   var PLUS_KEYCODE = 107;
   var ENTER_KEYCODE = 13;
   var CORRECT_FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png', 'wepb'];
-  var ERROR_CLASS_NAME = '.error';
-
-
-  /* VARIABLES */
-
-  var errorTemplate = document.querySelector('#error').content;
-  var errorNode = document.querySelector(ERROR_CLASS_NAME);
 
 
   /* FUNCTIONS */
