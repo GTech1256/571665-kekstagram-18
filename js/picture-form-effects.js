@@ -62,7 +62,6 @@
 
 
   /* VARIABLES */
-
   var pictureUploadInputNode = document.querySelector('#upload-file');
   var pictureEditorNode = document.querySelector('.img-upload__overlay');
   var pictureUploadPreviewNode = document.querySelector('.img-upload__preview');
@@ -113,7 +112,7 @@
 
     setEffectLevelPinPosition(newValue);
 
-    effectLevelLValueNode.value = newValue;
+    effectLevelLValueNode.value = Math.round(newValue);
 
     setEffectLevelInPictureEditor(newValue);
   }
@@ -191,8 +190,7 @@
 
   /* - PictureEditorForm */
   function openPictureEditorForm() {
-    setPictureScale(SCALE_CONTROL_CONSTRAINTS.default);
-    setEffectLevelNewValue(MAX_PERCENT_OF_FILTER_VALUE);
+    resetPictureEffects();
 
     pictureEditorNode.classList.remove('hidden');
     document.addEventListener('keydown', pictureEditorFormKeyboardPressHandler);
@@ -201,9 +199,18 @@
   function closePictureEditorForm() {
     pictureEditorNode.classList.add('hidden');
 
-    pictureUploadInputNode.value = '';
+    clearPictureUploadInput();
 
     document.removeEventListener('keydown', pictureEditorFormKeyboardPressHandler);
+  }
+
+  function clearPictureUploadInput() {
+    pictureUploadInputNode.value = '';
+  }
+
+  function resetPictureEffects() {
+    setPictureScale(SCALE_CONTROL_CONSTRAINTS.default);
+    setEffectLevelNewValue(MAX_PERCENT_OF_FILTER_VALUE);
   }
 
 
@@ -249,7 +256,7 @@
       window.utils.readBlobFile(
           evt.target.files[0],
           setPictureToPreviewsNodes,
-          window.utils.showErrorMessage
+          window.notification.showErrorMessage
       );
     }
   }
@@ -363,13 +370,18 @@
     scaleControlValueNode.addEventListener('change', function () {
       pictureUploadPreviewImgNode.style.transform = 'scale(' + scaleControlValueNode.value / 100 + ')';
     });
+
+
   }
 
 
   /* EXPORT */
 
   window.pictureFormEffects = {
-    snapListeners: snapListeners
+    snapListeners: snapListeners,
+    clearPictureUploadInput: clearPictureUploadInput,
+    resetPictureEffects: resetPictureEffects,
+    closePictureEditorForm: closePictureEditorForm
   };
 
 })();

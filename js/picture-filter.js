@@ -49,7 +49,7 @@
     pictureFilterLastDebounce = setTimeout(function (localEvt) {
       window.backend.getPictures(
           setPuctureFilter(localEvt),
-          window.utils.showErrorMessage,
+          window.notification.showErrorMessage,
           true
       );
     }, DEBOUNCE_TIMEOUT, evt);

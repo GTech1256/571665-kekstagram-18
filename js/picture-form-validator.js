@@ -156,6 +156,7 @@
    */
   function snapListeners() {
     textHashtagInputNode.addEventListener('input', textHashtagInputHandler);
+
     textDescriptionInputNode.addEventListener('input', textDescriptionInputHandler);
   }
 
@@ -163,7 +164,9 @@
   /* EXPORT */
 
   window.pictureFormValidator = {
-    snapListeners: snapListeners
+    snapListeners: snapListeners,
+    textHashtagInputNode: textHashtagInputNode,
+    textDescriptionInputNode: textDescriptionInputNode
   };
 
 })();

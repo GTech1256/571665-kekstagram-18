@@ -16,7 +16,7 @@
 
   window.backend.getPictures(
       loadPicturesEndHandler,
-      window.utils.showErrorMessage,
+      window.notification.showErrorMessage,
       false
   );
 
@@ -30,6 +30,7 @@
   window.window.pictureRender.snapListeners();
   window.pictureFormValidator.snapListeners();
   window.pictureFormEffects.snapListeners();
+  window.pictureFormSubmit.snapListeners();
   window.picturePreview.snapListeners();
   window.pictureFilter.snapListeners();
 
