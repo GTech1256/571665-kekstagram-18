@@ -139,7 +139,7 @@
 
   window.pictureRender = {
     renderGeneratedPictures: renderGeneratedPictures,
-    snapListeners: snapListeners
+    snapListeners: snapListeners,
   };
 
 })();
