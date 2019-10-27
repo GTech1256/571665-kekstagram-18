@@ -81,8 +81,6 @@
       document.querySelector('.social__comments').appendChild(socialСommentNode);
     });
 
-    console.log(offsetOfCommentsUploading);
-
     showedCommentCountNode.textContent = offsetOfCommentsUploading;
   }
 
