@@ -18,6 +18,8 @@
   var THE_MAXIMUM_LENGTH_OF_A_HASHTAG = 20;
   var THE_MAXIMUM_LENGTH_OF_THE_COMMENT = 140;
   var CLEAR_CUSTOM_VALIDITY = '';
+  var INCORRECT_INPUT_OUTLINE = '3px solid red';
+  var CORRECT_INPUT_OUTLINE = '0px solid red';
   /** @type {VALIDATION_SCHEMA} */
   var DESCRIPTION_VALIDATION_SCHEMA = {
     tooLong: {
@@ -120,11 +122,11 @@
    * @param {VALIDATION_SCHEMA} schema
    */
   function makeValidateInputNodeBySchema(inputNode, values, schema) {
-    inputNode.style.outline = '0px solid red';
+    inputNode.style.outline = CORRECT_INPUT_OUTLINE;
 
     if (!values[0]) {
       inputNode.setCustomValidity(CLEAR_CUSTOM_VALIDITY);
-      inputNode.style.outline = '0px solid red';
+      inputNode.style.outline = CORRECT_INPUT_OUTLINE;
 
       return;
     }
@@ -135,7 +137,7 @@
       inputNode.setCustomValidity(customValidity);
 
       if (customValidity !== CLEAR_CUSTOM_VALIDITY) {
-        inputNode.style.outline = '3px solid red';
+        inputNode.style.outline = INCORRECT_INPUT_OUTLINE;
         break;
       }
     }
