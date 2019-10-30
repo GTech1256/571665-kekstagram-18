@@ -51,7 +51,7 @@
    * @param {Event} evt
    * @return {boolean}
    */
-  function isTargetInput(evt) {
+  function checkIsTargetInput(evt) {
     var targetIsInput = evt.target.name || evt.target.tagName === 'INPUT';
 
     return evt.target && targetIsInput && evt.target.getAttribute('type') !== 'file';
@@ -63,8 +63,8 @@
      * @param {KeyboardEvent} evt
      * @return {boolean}
      */
-  function isKeydownEscEvent(evt) {
-    return (evt.keyCode === ESC_KEYCODE && !isTargetInput(evt));
+  function checkIsKeydownEscEvent(evt) {
+    return (evt.keyCode === ESC_KEYCODE && !checkIsTargetInput(evt));
   }
 
   /**
@@ -73,9 +73,9 @@
      * @param {Function} cb
      * @return {function(KeyboardEvent):void}
      */
-  function keydownEscEventWrapper(cb) {
+  function getKeydownEscEventWrapper(cb) {
     return function (evt) {
-      if (isKeydownEscEvent(evt)) {
+      if (checkIsKeydownEscEvent(evt)) {
         cb(evt);
       }
     };
@@ -87,7 +87,7 @@
    * @param {Function} callback
    * @return {function(Event)}
    */
-  function keydownEnterEventWrapper(callback) {
+  function getKeydownEnterEventWrapper(callback) {
     return function (evt) {
       if (evt.keyCode === ENTER_KEYCODE) {
         callback(evt);
@@ -151,9 +151,9 @@
     getRandomIntInclusive: getRandomIntInclusive,
     getRandomValueFromArray: getRandomValueFromArray,
     getValueBetweenByPercent: getValueBetweenByPercent,
-    isKeydownEscEvent: isKeydownEscEvent,
-    keydownEscEventWrapper: keydownEscEventWrapper,
-    keydownEnterEventWrapper: keydownEnterEventWrapper,
+    checkIsKeydownEscEvent: checkIsKeydownEscEvent,
+    getKeydownEscEventWrapper: getKeydownEscEventWrapper,
+    getKeydownEnterEventWrapper: getKeydownEnterEventWrapper,
     MINUS_KEYCODE: MINUS_KEYCODE,
     PLUS_KEYCODE: PLUS_KEYCODE,
     getRandomElements: getRandomElements,

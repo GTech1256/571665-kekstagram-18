@@ -98,14 +98,14 @@
     document.body.classList.add(BODY_CLASS_MODAL_OPEN_VALUE);
     bigPictureNode.classList.remove(window.utils.CLASS_HIDDEN);
 
-    document.addEventListener('keydown', window.utils.keydownEscEventWrapper(closeBigPicture));
+    document.addEventListener('keydown', window.utils.getKeydownEscEventWrapper(closeBigPicture));
   }
 
   function closeBigPicture() {
     document.body.classList.remove(BODY_CLASS_MODAL_OPEN_VALUE);
     bigPictureNode.classList.add(window.utils.CLASS_HIDDEN);
 
-    document.removeEventListener('keydown', window.utils.keydownEscEventWrapper(closeBigPicture));
+    document.removeEventListener('keydown', window.utils.getKeydownEscEventWrapper(closeBigPicture));
   }
 
   function hideCommentsLoader() {

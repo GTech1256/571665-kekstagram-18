@@ -191,6 +191,14 @@
     scaleControlValueNode.dispatchEvent(new Event('change'));
   }
 
+  /**
+   * @param {FilterName} effectName
+   */
+  function setEffectPicture(effectName) {
+    currentFilter = EFFECT_NAME_TO_FILTER_MAP[effectName];
+    pictureUploadPreviewNode.className = PICTURE_UPLOAD_PREVIEW_IMG_DEFAULT_CLASS_NAME + ' effects__preview--' + effectName;
+  }
+
 
   /* BUSINESS LOGIC */
 
@@ -245,7 +253,7 @@
   function pictureEditorFormKeyboardPressHandler(evt) {
 
     // Если фокус находится на форме ввода, то окно закрываться не должно.
-    if (window.utils.isKeydownEscEvent(evt)) {
+    if (window.utils.checkIsKeydownEscEvent(evt)) {
       closePictureEditorForm();
       return;
     }
@@ -345,15 +353,6 @@
     */
     setEffectLevelNewValue(MAX_PERCENT_OF_FILTER_VALUE);
   }
-
-  /**
-   * @param {FilterName} effectName
-   */
-  function setEffectPicture(effectName) {
-    currentFilter = EFFECT_NAME_TO_FILTER_MAP[effectName];
-    pictureUploadPreviewNode.className = PICTURE_UPLOAD_PREVIEW_IMG_DEFAULT_CLASS_NAME + ' effects__preview--' + effectName;
-  }
-
 
   /* EVENTS:listeners */
 

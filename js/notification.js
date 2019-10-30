@@ -62,7 +62,7 @@
   };
 
   Notification.prototype.show = function () {
-    this.escReferenceHandler = window.utils.keydownEscEventWrapper(this.hide.bind(this));
+    this.escReferenceHandler = window.utils.getKeydownEscEventWrapper(this.hide.bind(this));
     this.outsideReferenceHandler = this.outsideClickHandler.bind(this);
 
     document.addEventListener('keydown', this.escReferenceHandler);
