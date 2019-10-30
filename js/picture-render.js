@@ -60,13 +60,15 @@
 
   /**
    * @param {HTMLImageElement} imageNode
-   * @return {string}
+   * @return {number}
    */
   function getPictureIdFromImageNode(imageNode) {
-    return new URL(imageNode.src)
+    var imageName = new URL(imageNode.src)
     .pathname
-    .match(/[0-9]/g)
+    .match(/[0-9]{1,}.(jpg|png|gif)/g)
     .join('');
+    
+    return parseInt(imageName, 10);
   }
 
   /**
@@ -139,7 +141,7 @@
 
   window.pictureRender = {
     renderGeneratedPictures: renderGeneratedPictures,
-    snapListeners: snapListeners
+    snapListeners: snapListeners,
   };
 
 })();
