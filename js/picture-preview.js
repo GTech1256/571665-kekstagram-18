@@ -21,8 +21,8 @@
 
   /* CONSTANTS */
 
-  var COUNT_OF_COMMENTS_UPLOADING = 5;
-  var BODY_CLASS_MODAL_OPEN = 'modal-open';
+  var COMMENTS_UPLOADING_COUNT = 5;
+  var BODY_CLASS_MODAL_OPEN_VALUE = 'modal-open';
 
 
   /* VARIABLES */
@@ -63,9 +63,9 @@
   }
 
   function addBigPictureComments() {
-    var comments = currentComments.slice(offsetOfCommentsUploading, offsetOfCommentsUploading + COUNT_OF_COMMENTS_UPLOADING);
+    var comments = currentComments.slice(offsetOfCommentsUploading, offsetOfCommentsUploading + COMMENTS_UPLOADING_COUNT);
 
-    if (comments.length < COUNT_OF_COMMENTS_UPLOADING) {
+    if (comments.length < COMMENTS_UPLOADING_COUNT) {
       hideCommentsLoader();
     }
 
@@ -95,14 +95,14 @@
 
 
   function openBigPicture() {
-    document.body.classList.add(BODY_CLASS_MODAL_OPEN);
+    document.body.classList.add(BODY_CLASS_MODAL_OPEN_VALUE);
     bigPictureNode.classList.remove(window.utils.CLASS_HIDDEN);
 
     document.addEventListener('keydown', window.utils.keydownEscEventWrapper(closeBigPicture));
   }
 
   function closeBigPicture() {
-    document.body.classList.remove(BODY_CLASS_MODAL_OPEN);
+    document.body.classList.remove(BODY_CLASS_MODAL_OPEN_VALUE);
     bigPictureNode.classList.add(window.utils.CLASS_HIDDEN);
 
     document.removeEventListener('keydown', window.utils.keydownEscEventWrapper(closeBigPicture));

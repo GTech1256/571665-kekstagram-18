@@ -13,7 +13,7 @@
 
   /* CONSTANTS */
 
-  var COUNT_OF_RANDOM_PICTURES = 10;
+  var RANDOM_PICTURES_COUNT = 10;
   var DEBOUNCE_TIMEOUT = 500;
 
   /* VARIABLES */
@@ -64,7 +64,7 @@
       switch (evt.target.id) {
         case 'filter-random':
           window.pictureRender.renderGeneratedPictures(
-              window.utils.getRandomElements(pictures, COUNT_OF_RANDOM_PICTURES)
+              window.utils.getRandomElements(pictures, RANDOM_PICTURES_COUNT)
           );
           break;
         case 'filter-discussed':

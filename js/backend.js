@@ -10,7 +10,7 @@
     picture: 'https://js.dump.academy/kekstagram/data',
     form: 'https://js.dump.academy/kekstagram',
   };
-  var METHOD = {
+  var METHOD_MAP = {
     get: 'GET',
     post: 'POST'
   };
@@ -84,7 +84,7 @@
         },
         onError,
         API_LINK_MAP.picture,
-        METHOD.get
+        METHOD_MAP.get
     );
   }
 
@@ -94,7 +94,7 @@
    * @param {FormData} data
    */
   function sendForm(onLoad, onError, data) {
-    makeXHR(onLoad, onError, API_LINK_MAP.form, METHOD.post, data);
+    makeXHR(onLoad, onError, API_LINK_MAP.form, METHOD_MAP.post, data);
   }
 
   /* EXPORT */

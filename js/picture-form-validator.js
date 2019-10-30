@@ -14,18 +14,18 @@
 
   /* CONSTANTS */
 
-  var THE_MAXIMUM_LENGTH_OF_A_HASHTAGS = 5;
-  var THE_MAXIMUM_LENGTH_OF_A_HASHTAG = 20;
-  var THE_MAXIMUM_LENGTH_OF_THE_COMMENT = 140;
-  var CLEAR_CUSTOM_VALIDITY = '';
-  var INCORRECT_INPUT_OUTLINE = '3px solid red';
-  var CORRECT_INPUT_OUTLINE = '0px solid red';
+  var HASHTAGS_MAXIMUM_LENGTH = 5;
+  var ONE_HASHTAG_MAXIMUM_LENGTH = 20;
+  var COMMENT_MAXIMUM_LENGTH = 140;
+  var CLEAR_CUSTOM_VALIDITY_VALUE = '';
+  var INCORRECT_INPUT_OUTLINE_VALUE = '3px solid red';
+  var CORRECT_INPUT_OUTLINE_VALUE = '0px solid red';
   /** @type {VALIDATION_SCHEMA} */
   var DESCRIPTION_VALIDATION_SCHEMA = {
     tooLong: {
       description: 'Длина комментария не может составлять больше 140 символов',
       validateIt: function (payload) {
-        return payload.length <= THE_MAXIMUM_LENGTH_OF_THE_COMMENT;
+        return payload.length <= COMMENT_MAXIMUM_LENGTH;
       }
     }
   };
@@ -40,13 +40,13 @@
        * @return {boolean} Проходит ли проверку
        */
       validateIt: function (payload, index, payloads) {
-        return payloads.length <= THE_MAXIMUM_LENGTH_OF_A_HASHTAGS;
+        return payloads.length <= HASHTAGS_MAXIMUM_LENGTH;
       }
     },
     tooLong: {
       description: 'максимальная длина одного хэш-тега 20 символов, включая решётку',
       validateIt: function (payload) {
-        return payload.length <= THE_MAXIMUM_LENGTH_OF_A_HASHTAG;
+        return payload.length <= ONE_HASHTAG_MAXIMUM_LENGTH;
       }
     },
     firstSymbol: {
@@ -113,7 +113,7 @@
       }
     }
 
-    return CLEAR_CUSTOM_VALIDITY;
+    return CLEAR_CUSTOM_VALIDITY_VALUE;
   }
 
   /**
@@ -122,11 +122,11 @@
    * @param {VALIDATION_SCHEMA} schema
    */
   function makeValidateInputNodeBySchema(inputNode, values, schema) {
-    inputNode.style.outline = CORRECT_INPUT_OUTLINE;
+    inputNode.style.outline = CORRECT_INPUT_OUTLINE_VALUE;
 
     if (!values[0]) {
-      inputNode.setCustomValidity(CLEAR_CUSTOM_VALIDITY);
-      inputNode.style.outline = CORRECT_INPUT_OUTLINE;
+      inputNode.setCustomValidity(CLEAR_CUSTOM_VALIDITY_VALUE);
+      inputNode.style.outline = CORRECT_INPUT_OUTLINE_VALUE;
 
       return;
     }
@@ -136,8 +136,8 @@
 
       inputNode.setCustomValidity(customValidity);
 
-      if (customValidity !== CLEAR_CUSTOM_VALIDITY) {
-        inputNode.style.outline = INCORRECT_INPUT_OUTLINE;
+      if (customValidity !== CLEAR_CUSTOM_VALIDITY_VALUE) {
+        inputNode.style.outline = INCORRECT_INPUT_OUTLINE_VALUE;
         break;
       }
     }
