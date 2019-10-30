@@ -70,7 +70,7 @@
   /* VARIABLES */
   var pictureUploadInputNode = document.querySelector('#upload-file');
   var pictureEditorNode = document.querySelector('.img-upload__overlay');
-  var pictureUploadPreviewNode = document.querySelector('.img-upload__preview');
+  var pictureUploadPreviewNode = document.querySelector('.img-upload__preview img');
   var pictureUploadPreviewImgNode = document.querySelector('.img-upload__preview img');
   var pictureEffectPreviewNodes = document.querySelectorAll('.effects__preview');
   var pictureEffectPreviewInputNodes = document.querySelectorAll('.effects__radio');
@@ -348,7 +348,7 @@
    */
   function setEffectPicture(effectName) {
     currentFilter = EFFECT_NAME_TO_FILTER_MAP[effectName];
-    pictureUploadPreviewNode.className = PICTURE_UPLOAD_PREVIEW_IMG_DEFAULT_CLASS_NAME + ' effects__preview--' + currentFilter;
+    pictureUploadPreviewNode.className = PICTURE_UPLOAD_PREVIEW_IMG_DEFAULT_CLASS_NAME + ' effects__preview--' + effectName;
   }
 
 
