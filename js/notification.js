@@ -63,13 +63,27 @@
 
   Notification.prototype.show = function () {
     this.escReferenceHandler = window.utils.keydownEscEventWrapper(this.hide.bind(this));
+    this.outsideReferenceHandler = this.outsideClickHandler.bind(this);
+
     document.addEventListener('keydown', this.escReferenceHandler);
+    document.addEventListener('click', this.outsideReferenceHandler);
 
     this.rootNode.classList.remove('visually-hidden');
   };
 
+  /**
+   * @param {MouseEvent} evt
+   */
+  Notification.prototype.outsideClickHandler = function (evt) {
+    if (evt.target.classList.contains(this.type)) {
+      this.hide();
+    }
+  };
+
+
   Notification.prototype.hide = function () {
     document.removeEventListener('keydown', this.escReferenceHandler);
+    document.removeEventListener('click', this.outsideReferenceHandler);
 
     this.rootNode.classList.add('visually-hidden');
   };
