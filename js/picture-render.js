@@ -67,7 +67,7 @@
     .pathname
     .match(/[0-9]{1,}.(jpg|png|gif)/g)
     .join('');
-    
+
     return parseInt(imageName, 10);
   }
 
