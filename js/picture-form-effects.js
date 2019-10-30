@@ -8,6 +8,10 @@
  * @property {string} units
  */
 
+/**
+  * @typedef {('chrome'|'sepia'|'marvin'|'phobos'|'heat'|'none')} FilterName
+  */
+
 (function () {
 
   /* CONSTANTS */
@@ -51,15 +55,17 @@
     default: 100
   };
 
+  /**
+   * @type {Object<FilterName, string>}
+   */
   var EFFECT_NAME_TO_FILTER_MAP = {
     chrome: 'grayscale',
     sepia: 'sepia',
     marvin: 'invert',
     phobos: 'blur',
     heat: 'brightness',
-    none: 'none'
+    none: 'none',
   };
-
 
   /* VARIABLES */
   var pictureUploadInputNode = document.querySelector('#upload-file');
@@ -209,6 +215,7 @@
   }
 
   function resetPictureEffects() {
+    setEffectPicture(EFFECT_NAME_TO_FILTER_MAP.none);
     setPictureScale(SCALE_CONTROL_CONSTRAINTS.default);
     setEffectLevelNewValue(MAX_PERCENT_OF_FILTER_VALUE);
   }
@@ -324,8 +331,7 @@
    * @param {MouseEvent} evt
    */
   function pictureEffectPreviewInputClickHandler(evt) {
-    currentFilter = EFFECT_NAME_TO_FILTER_MAP[evt.target.value];
-    pictureUploadPreviewNode.className = PICTURE_UPLOAD_PREVIEW_IMG_DEFAULT_CLASS_NAME + ' effects__preview--' + currentFilter;
+    setEffectPicture(evt.target.value);
 
     /*
     При переключении эффектов,
@@ -335,6 +341,14 @@
     значение поля должны обновляться.
     */
     setEffectLevelNewValue(MAX_PERCENT_OF_FILTER_VALUE);
+  }
+
+  /**
+   * @param {FilterName} effectName
+   */
+  function setEffectPicture(effectName) {
+    currentFilter = EFFECT_NAME_TO_FILTER_MAP[effectName];
+    pictureUploadPreviewNode.className = PICTURE_UPLOAD_PREVIEW_IMG_DEFAULT_CLASS_NAME + ' effects__preview--' + currentFilter;
   }
 
 
