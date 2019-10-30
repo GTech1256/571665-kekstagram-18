@@ -118,15 +118,23 @@
 
   /**
    * @param {HTMLInputElement} inputNode
+   * @param {boolean} isCorrect
+   */
+  function setInputNodeOutline(inputNode, isCorrect) {
+    inputNode.style.outline = isCorrect ? CORRECT_INPUT_OUTLINE_VALUE : INCORRECT_INPUT_OUTLINE_VALUE;
+  }
+
+  /**
+   * @param {HTMLInputElement} inputNode
    * @param {string[]} values
    * @param {VALIDATION_SCHEMA} schema
    */
   function makeValidateInputNodeBySchema(inputNode, values, schema) {
-    inputNode.style.outline = CORRECT_INPUT_OUTLINE_VALUE;
+    setInputNodeOutline(inputNode, true);
 
     if (!values[0]) {
       inputNode.setCustomValidity(CLEAR_CUSTOM_VALIDITY_VALUE);
-      inputNode.style.outline = CORRECT_INPUT_OUTLINE_VALUE;
+      setInputNodeOutline(inputNode, true);
 
       return;
     }
@@ -137,7 +145,7 @@
       inputNode.setCustomValidity(customValidity);
 
       if (customValidity !== CLEAR_CUSTOM_VALIDITY_VALUE) {
-        inputNode.style.outline = INCORRECT_INPUT_OUTLINE_VALUE;
+        setInputNodeOutline(inputNode, false);
         break;
       }
     }
@@ -184,7 +192,8 @@
   window.pictureFormValidator = {
     snapListeners: snapListeners,
     textHashtagInputNode: textHashtagInputNode,
-    textDescriptionInputNode: textDescriptionInputNode
+    textDescriptionInputNode: textDescriptionInputNode,
+    setInputNodeOutline: setInputNodeOutline
   };
 
 })();

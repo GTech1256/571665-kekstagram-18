@@ -229,6 +229,8 @@
 
     window.pictureFormValidator.textHashtagInputNode.value = '';
     window.pictureFormValidator.textDescriptionInputNode.value = '';
+    window.pictureFormValidator.setInputNodeOutline(window.pictureFormValidator.textHashtagInputNode, true);
+    window.pictureFormValidator.setInputNodeOutline(window.pictureFormValidator.textDescriptionInputNode, true);
   }
 
 
