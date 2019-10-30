@@ -114,6 +114,32 @@
     return CLEAR_CUSTOM_VALIDITY;
   }
 
+  /**
+   * @param {HTMLInputElement} inputNode
+   * @param {string[]} values
+   * @param {VALIDATION_SCHEMA} schema
+   */
+  function makeValidateInputNodeBySchema(inputNode, values, schema) {
+    inputNode.style.outline = '0px solid red';
+
+    if (!values[0]) {
+      inputNode.setCustomValidity(CLEAR_CUSTOM_VALIDITY);
+      inputNode.style.outline = '0px solid red';
+
+      return;
+    }
+
+    for (var i = 0; i < values.length; i++) {
+      var customValidity = getCustomValidity(values[i], i, values, schema);
+
+      inputNode.setCustomValidity(customValidity);
+
+      if (customValidity !== CLEAR_CUSTOM_VALIDITY) {
+        inputNode.style.outline = '3px solid red';
+        break;
+      }
+    }
+  }
 
   /* EVENTS */
 
@@ -127,23 +153,13 @@
   function textHashtagInputHandler(evt) {
     var hashtags = evt.target.value.trim().toLowerCase().split(' ');
 
-    for (var i = 0; i < hashtags.length; i++) {
-      var customValidity = getCustomValidity(hashtags[i], i, hashtags, HASHTAG_VALIDATION_SCHEMA);
-
-      textHashtagInputNode.setCustomValidity(customValidity);
-
-      if (customValidity !== CLEAR_CUSTOM_VALIDITY) {
-        break;
-      }
-    }
+    makeValidateInputNodeBySchema(textHashtagInputNode, hashtags, HASHTAG_VALIDATION_SCHEMA);
   }
 
   function textDescriptionInputHandler(evt) {
     var values = [evt.target.value];
 
-    textDescriptionInputNode.setCustomValidity(
-        getCustomValidity(values[0], values.length, values, DESCRIPTION_VALIDATION_SCHEMA)
-    );
+    makeValidateInputNodeBySchema(textDescriptionInputNode, values, DESCRIPTION_VALIDATION_SCHEMA);
   }
 
 
