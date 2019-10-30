@@ -6,9 +6,6 @@
 
   function loadPicturesEndHandler(pictures) {
     window.pictureRender.renderGeneratedPictures(pictures);
-    window.picturePreview.fillBigPictureNodeBy(pictures[0]);
-
-    document.querySelector('.img-filters').classList.remove('img-filters--inactive');
   }
 
 

@@ -22,6 +22,7 @@
   /* CONSTANTS */
 
   var COUNT_OF_COMMENTS_UPLOADING = 5;
+  var BODY_CLASS_MODAL_OPEN = 'modal-open';
 
 
   /* VARIABLES */
@@ -94,22 +95,25 @@
 
 
   function openBigPicture() {
+    document.body.classList.add(BODY_CLASS_MODAL_OPEN);
+    bigPictureNode.classList.remove(window.utils.CLASS_HIDDEN);
 
-    bigPictureNode.classList.remove('hidden');
     document.addEventListener('keydown', window.utils.keydownEscEventWrapper(closeBigPicture));
   }
 
   function closeBigPicture() {
-    bigPictureNode.classList.add('hidden');
+    document.body.classList.remove(BODY_CLASS_MODAL_OPEN);
+    bigPictureNode.classList.add(window.utils.CLASS_HIDDEN);
+
     document.removeEventListener('keydown', window.utils.keydownEscEventWrapper(closeBigPicture));
   }
 
   function hideCommentsLoader() {
-    commentsLoaderNode.classList.add('hidden');
+    commentsLoaderNode.classList.add(window.utils.CLASS_HIDDEN);
   }
 
   function showCommentsLoader() {
-    commentsLoaderNode.classList.remove('hidden');
+    commentsLoaderNode.classList.remove(window.utils.CLASS_HIDDEN);
   }
 
   /* EVENTS */

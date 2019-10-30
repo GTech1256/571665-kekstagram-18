@@ -9,7 +9,7 @@
   var PLUS_KEYCODE = 107;
   var ENTER_KEYCODE = 13;
   var CORRECT_FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png', 'wepb'];
-
+  var CLASS_HIDDEN = 'hidden';
 
   /* FUNCTIONS */
 
@@ -157,7 +157,8 @@
     MINUS_KEYCODE: MINUS_KEYCODE,
     PLUS_KEYCODE: PLUS_KEYCODE,
     getRandomElements: getRandomElements,
-    readBlobFile: readBlobFile
+    readBlobFile: readBlobFile,
+    CLASS_HIDDEN: CLASS_HIDDEN
   };
 
 })();

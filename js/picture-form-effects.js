@@ -198,12 +198,12 @@
   function openPictureEditorForm() {
     resetPictureEffects();
 
-    pictureEditorNode.classList.remove('hidden');
+    pictureEditorNode.classList.remove(window.utils.CLASS_HIDDEN);
     document.addEventListener('keydown', pictureEditorFormKeyboardPressHandler);
   }
 
   function closePictureEditorForm() {
-    pictureEditorNode.classList.add('hidden');
+    pictureEditorNode.classList.add(window.utils.CLASS_HIDDEN);
 
     clearPictureUploadInput();
 
@@ -227,11 +227,11 @@
   /* - EffectLevelLine */
 
   function hideEffectLevelLine() {
-    effectLevelNode.classList.add('hidden');
+    effectLevelNode.classList.add(window.utils.CLASS_HIDDEN);
   }
 
   function showEffectLevelLine() {
-    effectLevelNode.classList.remove('hidden');
+    effectLevelNode.classList.remove(window.utils.CLASS_HIDDEN);
   }
 
 
