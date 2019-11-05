@@ -28,8 +28,8 @@
   /* VARIABLES */
 
   var bigPictureNode = document.querySelector('.big-picture');
-  var socialСommentTemplate = document.querySelector('#social__comment').content;
-  var socialСommentsNode = document.querySelector('.social__comments');
+  var socialCommentTemplate = document.querySelector('#social__comment').content;
+  var socialCommentsNode = document.querySelector('.social__comments');
   var commentsLoaderNode = document.querySelector('.comments-loader');
   var socialCommentCountNode = document.querySelector('.comments-count');
   var showedCommentCountNode = document.querySelector('.showed-comments-count');
@@ -72,14 +72,14 @@
     offsetOfCommentsUploading += comments.length;
 
     comments.forEach(function (item) {
-      var socialСommentNode = socialСommentTemplate.cloneNode(true);
-      var socialPictureNode = socialСommentNode.querySelector('.social__picture');
+      var socialCommentNode = socialCommentTemplate.cloneNode(true);
+      var socialPictureNode = socialCommentNode.querySelector('.social__picture');
 
-      socialСommentNode.querySelector('.social__text').textContent = item.message;
+      socialCommentNode.querySelector('.social__text').textContent = item.message;
       socialPictureNode.src = item.avatar;
       socialPictureNode.alt = item.name;
 
-      document.querySelector('.social__comments').appendChild(socialСommentNode);
+      document.querySelector('.social__comments').appendChild(socialCommentNode);
     });
 
     showedCommentCountNode.textContent = offsetOfCommentsUploading;
@@ -87,7 +87,7 @@
 
   var resetBigPictureComments = function () {
     offsetOfCommentsUploading = 0;
-    socialСommentsNode.innerHTML = '';
+    socialCommentsNode.innerHTML = '';
     showCommentsLoader();
   };
 
@@ -98,14 +98,20 @@
     document.body.classList.add(BODY_CLASS_MODAL_OPEN_VALUE);
     bigPictureNode.classList.remove(window.utils.CLASS_HIDDEN);
 
-    document.addEventListener('keydown', window.utils.getKeydownEscEventWrapper(closeBigPicture));
+    document.addEventListener('keydown', closeBigPicture);
   };
+  /**
+   * @param {KeyboardEvent} evt
+   */
+  var closeBigPicture = function (evt) {
+    if (!window.utils.checkIsKeydownEscEvent(evt)) {
+      return;
+    }
 
-  var closeBigPicture = function () {
     document.body.classList.remove(BODY_CLASS_MODAL_OPEN_VALUE);
     bigPictureNode.classList.add(window.utils.CLASS_HIDDEN);
 
-    document.removeEventListener('keydown', window.utils.getKeydownEscEventWrapper(closeBigPicture));
+    document.removeEventListener('keydown', closeBigPicture);
   };
 
   var hideCommentsLoader = function () {

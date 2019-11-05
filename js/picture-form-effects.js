@@ -19,6 +19,7 @@
   var PICTURE_UPLOAD_PREVIEW_IMG_DEFAULT_CLASS_NAME = 'img-upload__preview';
   var MAX_PERCENT_OF_FILTER_VALUE = 100;
   var MIN_PERCENT_OF_FILTER_VALUE = 0;
+  var INIT_START_COORD_OF_PIN_ON_X_PLANE = 0;
   var FILTER_DEFAULT = {
     min: 0,
     max: 1,
@@ -86,13 +87,10 @@
   var scaleControlSmallerNode = document.querySelector('.scale__control--smaller');
 
   var currentFilter = EFFECT_NAME_TO_FILTER_MAP.none;
-  var startCoordsOfPinOnXPlane = getStartCoordsOfPinOnXPlane();
+  var startCoordsOfPinOnXPlane = INIT_START_COORD_OF_PIN_ON_X_PLANE;
+
 
   /* FUNCTIONS */
-
-  var getStartCoordsOfPinOnXPlane = function () {
-    return 0;
-  };
 
   /**
    * @param {String} pictureSrc
@@ -318,7 +316,7 @@
   var documentMousemoupHandler = function (evt) {
     evt.preventDefault();
 
-    startCoordsOfPinOnXPlane = getStartCoordsOfPinOnXPlane();
+    startCoordsOfPinOnXPlane = INIT_START_COORD_OF_PIN_ON_X_PLANE;
     document.removeEventListener('mousemove', documentMousemoveHandler);
     document.removeEventListener('mouseup', documentMousemoupHandler);
   };
