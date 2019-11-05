@@ -16,26 +16,6 @@
   /**
    * @param {number} min
    * @param {number} max
-   * @return {number}
-   */
-  function getRandomIntInclusive(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-  /**
-   * @param {*[]} array
-   * @return {*}
-   */
-  function getRandomValueFromArray(array) {
-    return array[Math.floor(Math.random() * array.length)];
-  }
-
-  /**
-   * @param {number} min
-   * @param {number} max
    * @param {number} percent > 0 && < 100
    * @param {number} percentMax
    * @return {number} значения между min и max по percent
@@ -81,19 +61,6 @@
     };
   }
 
-  /**
-   * Вызывает callback с переданным Event в 1 параметре, если был нажат Enter
-   *
-   * @param {Function} callback
-   * @return {function(Event)}
-   */
-  function getKeydownEnterEventWrapper(callback) {
-    return function (evt) {
-      if (evt.keyCode === ENTER_KEYCODE) {
-        callback(evt);
-      }
-    };
-  }
 
   /**
    * количество элементов должно быть больше count
@@ -148,12 +115,9 @@
   /* EXPORT */
 
   window.utils = {
-    getRandomIntInclusive: getRandomIntInclusive,
-    getRandomValueFromArray: getRandomValueFromArray,
     getValueBetweenByPercent: getValueBetweenByPercent,
     checkIsKeydownEscEvent: checkIsKeydownEscEvent,
     getKeydownEscEventWrapper: getKeydownEscEventWrapper,
-    getKeydownEnterEventWrapper: getKeydownEnterEventWrapper,
     MINUS_KEYCODE: MINUS_KEYCODE,
     PLUS_KEYCODE: PLUS_KEYCODE,
     getRandomElements: getRandomElements,
