@@ -6,11 +6,11 @@
 
   var TIMEOUT = 10000; // 10s
   var RESPONSE_TYPE = 'json';
-  var API_LINK_MAP = {
+  var apiLinkMap = {
     picture: 'https://js.dump.academy/kekstagram/data',
     form: 'https://js.dump.academy/kekstagram',
   };
-  var METHOD_MAP = {
+  var methodMap = {
     get: 'GET',
     post: 'POST'
   };
@@ -83,8 +83,8 @@
           onLoad(cachedPictures.data);
         },
         onError,
-        API_LINK_MAP.picture,
-        METHOD_MAP.get
+        apiLinkMap.picture,
+        methodMap.get
     );
   }
 
@@ -94,7 +94,7 @@
    * @param {FormData} data
    */
   function sendForm(onLoad, onError, data) {
-    makeXHR(onLoad, onError, API_LINK_MAP.form, METHOD_MAP.post, data);
+    makeXHR(onLoad, onError, apiLinkMap.form, methodMap.post, data);
   }
 
   /* EXPORT */
