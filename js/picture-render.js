@@ -82,6 +82,10 @@
       return potentialTarget;
     }
 
+    if (!evt.path) {
+      return null;
+    }
+
     evt.path.forEach(function (node) {
 
       if (node.classList && node.classList.contains('picture')) {
