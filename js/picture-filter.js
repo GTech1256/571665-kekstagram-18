@@ -27,11 +27,11 @@
    * @param {Picture[]} pictures
    * @return {Picture[]}
    */
-  function getSortedPicturesByComments(pictures) {
+  var getSortedPicturesByComments = function (pictures) {
     return pictures.slice().sort(function (leftPicture, rightPicture) {
       return rightPicture.comments.length - leftPicture.comments.length;
     });
-  }
+  };
 
   /* EVENTS */
 
@@ -41,7 +41,7 @@
   /**
    * @param {MouseEvent} evt
    */
-  function imgFiltersButtonClickHandler(evt) {
+  var imgFiltersButtonClickHandler = function (evt) {
     if (pictureFilterLastDebounce) {
       clearTimeout(pictureFilterLastDebounce);
     }
@@ -53,13 +53,13 @@
           true
       );
     }, DEBOUNCE_TIMEOUT, evt);
-  }
+  };
 
   /**
    * @param {MouseEvent} evt
    * @return {function(Picture[]):void}
    */
-  function setPuctureFilter(evt) {
+  var setPuctureFilter = function (evt) {
     return function (pictures) {
       switch (evt.target.id) {
         case 'filter-random':
@@ -83,7 +83,7 @@
       });
       evt.target.classList.add('img-filters__button--active');
     };
-  }
+  };
 
 
   /* EVENTS:listeners */
@@ -93,13 +93,13 @@
    * Для запуска всех слушателей событий
    * Для этого модуля
    */
-  function snapListeners() {
+  var snapListeners = function () {
 
 
     imgFiltersButtonNodes.forEach(function (imgFiltersButtonNode) {
       imgFiltersButtonNode.addEventListener('click', imgFiltersButtonClickHandler);
     });
-  }
+  };
 
 
   /* EXPORT */

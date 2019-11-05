@@ -4,10 +4,10 @@
 
   /* CB FUNCTIONS */
 
-  function loadPicturesEndHandler(pictures) {
+  var loadPicturesEndHandler = function (pictures) {
     window.pictureRender.renderGeneratedPictures(pictures);
     document.querySelector('.img-filters').classList.remove('img-filters--inactive');
-  }
+  };
 
 
   /* MAIN */

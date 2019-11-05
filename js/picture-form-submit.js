@@ -13,19 +13,19 @@
 
   /* BUSINESS LOGIC */
 
-  function closePictureForm() {
+  var closePictureForm = function () {
     closePictureEditorForm();
     clearPictureUploadInput();
     resetPictureEffects();
     window.notification.showSuccessMessage();
-  }
+  };
 
   /* EVENTS */
 
 
   /* EVENTS:controls */
 
-  function imgUploadFormSubmitHandler(evt) {
+  var imgUploadFormSubmitHandler = function (evt) {
     evt.preventDefault();
 
     window.backend.sendForm(
@@ -33,7 +33,7 @@
         window.notification.showErrorMessage,
         new FormData(imgUploadFormNode)
     );
-  }
+  };
 
   /* EVENTS:listeners */
 
@@ -42,9 +42,9 @@
    * Для запуска всех слушателей событий
    * Для этого модуля
    */
-  function snapListeners() {
+  var snapListeners = function () {
     imgUploadFormNode.addEventListener('submit', imgUploadFormSubmitHandler);
-  }
+  };
 
 
   /* EXPORT */

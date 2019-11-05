@@ -35,7 +35,7 @@
    * @param {('GET'|'POST')} method Метод HTTP
    * @param {FormData} [data]
    */
-  function makeXHR(onLoad, onError, url, method, data) {
+  var makeXHR = function (onLoad, onError, url, method, data) {
     var xhr = new XMLHttpRequest();
 
     XMLHttpRequest.responseType = RESPONSE_TYPE;
@@ -60,14 +60,14 @@
 
     xhr.open(method, url);
     xhr.send(data);
-  }
+  };
 
   /**
    * @param {function(*): void} onLoad
    * @param {function(string): void} onError
    * @param {boolean} isUseCachedData
    */
-  function getPictures(onLoad, onError, isUseCachedData) {
+  var getPictures = function (onLoad, onError, isUseCachedData) {
     if (isUseCachedData && cachedPictures.lastUpdate > 0) {
       onLoad(cachedPictures.data);
       return;
@@ -86,16 +86,16 @@
         apiLinkMap.picture,
         methodMap.get
     );
-  }
+  };
 
   /**
    * @param {function(*): void} onLoad
    * @param {function(string): void} onError
    * @param {FormData} data
    */
-  function sendForm(onLoad, onError, data) {
+  var sendForm = function (onLoad, onError, data) {
     makeXHR(onLoad, onError, apiLinkMap.form, methodMap.post, data);
-  }
+  };
 
   /* EXPORT */
 

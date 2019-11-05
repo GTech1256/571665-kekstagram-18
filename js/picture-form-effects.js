@@ -90,14 +90,14 @@
 
   /* FUNCTIONS */
 
-  function getStartCoordsOfPinOnXPlane() {
+  var getStartCoordsOfPinOnXPlane = function () {
     return 0;
-  }
+  };
 
   /**
    * @param {String} pictureSrc
    */
-  function setPictureToPreviewsNodes(pictureSrc) {
+  var setPictureToPreviewsNodes = function (pictureSrc) {
 
     pictureUploadPreviewImgNode.src = pictureSrc;
 
@@ -106,12 +106,12 @@
     });
 
     openPictureEditorForm();
-  }
+  };
 
   /**
    * @param {number} newValue 0 - 100
    */
-  function setEffectLevelNewValue(newValue) {
+  var setEffectLevelNewValue = function (newValue) {
     if (newValue > MAX_PERCENT_OF_FILTER_VALUE || newValue < MIN_PERCENT_OF_FILTER_VALUE) {
       return;
     }
@@ -121,20 +121,20 @@
     effectLevelLValueNode.value = Math.round(newValue);
 
     setEffectLevelInPictureEditor(newValue);
-  }
+  };
 
   /**
    * @param {number} newPercentWidth 0 - 100
    */
-  function setEffectLevelPinPosition(newPercentWidth) {
+  var setEffectLevelPinPosition = function (newPercentWidth) {
     effectLevelLPinNode.style.left = newPercentWidth + '%';
     effectLevelLDepthNode.style.width = newPercentWidth + '%';
-  }
+  };
 
   /**
    * @param {number} newPercent 0 - 100
    */
-  function setEffectLevelInPictureEditor(newPercent) {
+  var setEffectLevelInPictureEditor = function (newPercent) {
 
     if (currentFilter === EFFECT_NAME_TO_FILTER_MAP.none) {
       setFilterToPictureUploadPreviewNode(0);
@@ -144,12 +144,12 @@
 
     showEffectLevelLine();
     setFilterToPictureUploadPreviewNode(newPercent);
-  }
+  };
 
   /**
    * @param {number} newPercent 0 - 100
    */
-  function setFilterToPictureUploadPreviewNode(newPercent) {
+  var setFilterToPictureUploadPreviewNode = function (newPercent) {
     if (currentFilter === EFFECT_NAME_TO_FILTER_MAP.none) {
       pictureUploadPreviewNode.style.filter = '';
     } else if (currentFilter === EFFECT_NAME_TO_FILTER_MAP.chrome || currentFilter === EFFECT_NAME_TO_FILTER_MAP.sepia) {
@@ -159,13 +159,13 @@
       newPercent = window.utils.getValueBetweenByPercent(filter.min, filter.max, newPercent, MAX_PERCENT_OF_FILTER_VALUE);
       pictureUploadPreviewNode.style.filter = currentFilter + '(' + newPercent + filter.units + ')';
     }
-  }
+  };
 
   /**
    *
    * @param {boolean} toUp При true повышает значение на 1 шаг
    */
-  function changeByStepPictureScale(toUp) {
+  var changeByStepPictureScale = function (toUp) {
     var currentValue = parseInt(scaleControlValueNode.value, 10);
 
     setPictureScale(
@@ -173,13 +173,13 @@
           currentValue + SCALE_CONTROL_CONSTRAINTS.step :
           currentValue - SCALE_CONTROL_CONSTRAINTS.step
     );
-  }
+  };
 
   /**
    *
    * @param {number} newScale 0 - 100
    */
-  function setPictureScale(newScale) {
+  var setPictureScale = function (newScale) {
     scaleControlBiggerNode.disabled = newScale === SCALE_CONTROL_CONSTRAINTS.max;
     scaleControlSmallerNode.disabled = newScale === SCALE_CONTROL_CONSTRAINTS.min;
 
@@ -189,40 +189,40 @@
 
     scaleControlValueNode.value = newScale;
     scaleControlValueNode.dispatchEvent(new Event('change'));
-  }
+  };
 
   /**
    * @param {FilterName} effectName
    */
-  function setEffectPicture(effectName) {
+  var setEffectPicture = function (effectName) {
     currentFilter = EFFECT_NAME_TO_FILTER_MAP[effectName];
     pictureUploadPreviewNode.className = PICTURE_UPLOAD_PREVIEW_IMG_DEFAULT_CLASS_NAME + ' effects__preview--' + effectName;
-  }
+  };
 
 
   /* BUSINESS LOGIC */
 
   /* - PictureEditorForm */
-  function openPictureEditorForm() {
+  var openPictureEditorForm = function () {
     resetPictureEffects();
 
     pictureEditorNode.classList.remove(window.utils.CLASS_HIDDEN);
     document.addEventListener('keydown', pictureEditorFormKeyboardPressHandler);
-  }
+  };
 
-  function closePictureEditorForm() {
+  var closePictureEditorForm = function () {
     pictureEditorNode.classList.add(window.utils.CLASS_HIDDEN);
 
     clearPictureUploadInput();
 
     document.removeEventListener('keydown', pictureEditorFormKeyboardPressHandler);
-  }
+  };
 
-  function clearPictureUploadInput() {
+  var clearPictureUploadInput = function () {
     pictureUploadInputNode.value = '';
-  }
+  };
 
-  function resetPictureEffects() {
+  var resetPictureEffects = function () {
     setEffectPicture(EFFECT_NAME_TO_FILTER_MAP.none);
     setPictureScale(SCALE_CONTROL_CONSTRAINTS.default);
     setEffectLevelNewValue(MAX_PERCENT_OF_FILTER_VALUE);
@@ -231,18 +231,18 @@
     window.pictureFormValidator.textDescriptionInputNode.value = '';
     window.pictureFormValidator.setInputNodeOutline(window.pictureFormValidator.textHashtagInputNode, true);
     window.pictureFormValidator.setInputNodeOutline(window.pictureFormValidator.textDescriptionInputNode, true);
-  }
+  };
 
 
   /* - EffectLevelLine */
 
-  function hideEffectLevelLine() {
+  var hideEffectLevelLine = function () {
     effectLevelNode.classList.add(window.utils.CLASS_HIDDEN);
-  }
+  };
 
-  function showEffectLevelLine() {
+  var showEffectLevelLine = function () {
     effectLevelNode.classList.remove(window.utils.CLASS_HIDDEN);
-  }
+  };
 
 
   /* EVENTS */
@@ -252,7 +252,7 @@
   /**
    * @param {KeyboardEvent} evt
    */
-  function pictureEditorFormKeyboardPressHandler(evt) {
+  var pictureEditorFormKeyboardPressHandler = function (evt) {
 
     // Если фокус находится на форме ввода, то окно закрываться не должно.
     if (window.utils.checkIsKeydownEscEvent(evt)) {
@@ -265,13 +265,13 @@
     if (isPressedMinus || isPressedPlus) {
       changeByStepPictureScale(isPressedPlus);
     }
-  }
+  };
 
   /**
    * Получает фаил-изображение для обработки
    * @param {Event} evt
    */
-  function uploadFileChangeHandler(evt) {
+  var uploadFileChangeHandler = function (evt) {
     if (evt.target.files && evt.target.files[0]) {
       window.utils.readBlobFile(
           evt.target.files[0],
@@ -279,7 +279,7 @@
           window.notification.showErrorMessage
       );
     }
-  }
+  };
 
   /* - effectLevelPin */
 
@@ -289,7 +289,7 @@
    *
    * @param {MouseEvent} evt
    */
-  function effectLevelLineMousedownHandler(evt) {
+  var effectLevelLineMousedownHandler = function (evt) {
     if (evt.target === effectLevelLPinNode) {
       return;
     }
@@ -300,33 +300,33 @@
 
     document.addEventListener('mousemove', documentMousemoveHandler);
     document.addEventListener('mouseup', documentMousemoupHandler);
-  }
+  };
 
   /**
    * @param {MouseEvent} evt
    */
-  function effectLevelPinMousedownHandler(evt) {
+  var effectLevelPinMousedownHandler = function (evt) {
     evt.preventDefault();
 
     document.addEventListener('mousemove', documentMousemoveHandler);
     document.addEventListener('mouseup', documentMousemoupHandler);
-  }
+  };
 
   /**
    * @param {MouseEvent} evt
    */
-  function documentMousemoupHandler(evt) {
+  var documentMousemoupHandler = function (evt) {
     evt.preventDefault();
 
     startCoordsOfPinOnXPlane = getStartCoordsOfPinOnXPlane();
     document.removeEventListener('mousemove', documentMousemoveHandler);
     document.removeEventListener('mouseup', documentMousemoupHandler);
-  }
+  };
 
   /**
    * @param {MouseEvent} evt
    */
-  function documentMousemoveHandler(evt) {
+  var documentMousemoveHandler = function (evt) {
     evt.preventDefault();
 
     var shift = startCoordsOfPinOnXPlane - evt.clientX;
@@ -335,7 +335,7 @@
     setEffectLevelNewValue(percentsOffset);
 
     startCoordsOfPinOnXPlane = evt.clientX;
-  }
+  };
 
   /* - pictureEffectPreviewNode */
 
@@ -343,7 +343,7 @@
    * Обрабатывает нажатие на любой из предпросмотров фильтра
    * @param {MouseEvent} evt
    */
-  function pictureEffectPreviewInputClickHandler(evt) {
+  var pictureEffectPreviewInputClickHandler = function (evt) {
     setEffectPicture(evt.target.value);
 
     /*
@@ -354,7 +354,7 @@
     значение поля должны обновляться.
     */
     setEffectLevelNewValue(MAX_PERCENT_OF_FILTER_VALUE);
-  }
+  };
 
   /* EVENTS:listeners */
 
@@ -363,7 +363,7 @@
    * Для запуска всех слушателей событий
    * Для этого модуля
    */
-  function snapListeners() {
+  var snapListeners = function () {
     pictureUploadInputNode.addEventListener('change', uploadFileChangeHandler);
 
     document.querySelector('.img-upload__cancel.cancel').addEventListener('click', function () {
@@ -388,9 +388,7 @@
     scaleControlValueNode.addEventListener('change', function () {
       pictureUploadPreviewImgNode.style.transform = 'scale(' + scaleControlValueNode.value / 100 + ')';
     });
-
-
-  }
+  };
 
 
   /* EXPORT */

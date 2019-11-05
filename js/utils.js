@@ -7,7 +7,6 @@
   var ESC_KEYCODE = 27;
   var MINUS_KEYCODE = 109;
   var PLUS_KEYCODE = 107;
-  var ENTER_KEYCODE = 13;
   var CORRECT_FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png', 'wepb'];
   var CLASS_HIDDEN = 'hidden';
 
@@ -21,9 +20,9 @@
    * @return {number} значения между min и max по percent
    * @example getValueBetweenByPercent(1, 2, 50) === 1.5
    */
-  function getValueBetweenByPercent(min, max, percent, percentMax) {
+  var getValueBetweenByPercent = function (min, max, percent, percentMax) {
     return ((max - min) / percentMax * percent) + min;
-  }
+  };
 
   /**
    * Проверяет является ли элемент target вводом данных
@@ -31,11 +30,11 @@
    * @param {Event} evt
    * @return {boolean}
    */
-  function checkIsTargetInput(evt) {
+  var checkIsTargetInput = function (evt) {
     var targetIsInput = evt.target.name || evt.target.tagName === 'INPUT';
 
     return evt.target && targetIsInput && evt.target.getAttribute('type') !== 'file';
-  }
+  };
 
   /**
      * Проверяет на нажатие ESC и target !== <input> as HTMLNode
@@ -43,9 +42,9 @@
      * @param {KeyboardEvent} evt
      * @return {boolean}
      */
-  function checkIsKeydownEscEvent(evt) {
+  var checkIsKeydownEscEvent = function (evt) {
     return (evt.keyCode === ESC_KEYCODE && !checkIsTargetInput(evt));
-  }
+  };
 
   /**
      * Вызывает callback с переданным KeyboardEvent в 1 параметре, если был нажат ESC
@@ -53,13 +52,13 @@
      * @param {Function} cb
      * @return {function(KeyboardEvent):void}
      */
-  function getKeydownEscEventWrapper(cb) {
+  var getKeydownEscEventWrapper = function (cb) {
     return function (evt) {
       if (checkIsKeydownEscEvent(evt)) {
         cb(evt);
       }
     };
-  }
+  };
 
 
   /**
@@ -68,7 +67,7 @@
    * @param {number} count
    * @return {Array}
    */
-  function getRandomElements(elements, count) {
+  var getRandomElements = function (elements, count) {
     var res = [];
     var localElements = elements.slice();
 
@@ -79,14 +78,14 @@
     }
 
     return res;
-  }
+  };
 
   /**
    * @param {Blob} blobFile
    * @param {function(string): void} loadHandler
    * @param {function(string): void} errorHandler
    */
-  function readBlobFile(blobFile, loadHandler, errorHandler) {
+  var readBlobFile = function (blobFile, loadHandler, errorHandler) {
     var fileName = blobFile.name.toLowerCase();
 
     var isCorrectFileType = CORRECT_FILE_TYPES.some(function (it) {
@@ -109,7 +108,7 @@
     };
 
     reader.readAsDataURL(blobFile);
-  }
+  };
 
 
   /* EXPORT */

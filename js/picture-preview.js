@@ -46,7 +46,7 @@
    *
    * @param {Picture} payload переданные данные
    */
-  function fillBigPictureNodeBy(payload) {
+  var fillBigPictureNodeBy = function (payload) {
     currentComments = payload.comments;
 
     bigPictureNode.querySelector('.big-picture__img img').src = payload.url;
@@ -60,9 +60,9 @@
     addBigPictureComments();
 
     openBigPicture();
-  }
+  };
 
-  function addBigPictureComments() {
+  var addBigPictureComments = function () {
     var comments = currentComments.slice(offsetOfCommentsUploading, offsetOfCommentsUploading + COMMENTS_UPLOADING_COUNT);
 
     if (comments.length < COMMENTS_UPLOADING_COUNT) {
@@ -83,49 +83,49 @@
     });
 
     showedCommentCountNode.textContent = offsetOfCommentsUploading;
-  }
+  };
 
-  function resetBigPictureComments() {
+  var resetBigPictureComments = function () {
     offsetOfCommentsUploading = 0;
     socialСommentsNode.innerHTML = '';
     showCommentsLoader();
-  }
+  };
 
   /* BUSINESS LOGIC */
 
 
-  function openBigPicture() {
+  var openBigPicture = function () {
     document.body.classList.add(BODY_CLASS_MODAL_OPEN_VALUE);
     bigPictureNode.classList.remove(window.utils.CLASS_HIDDEN);
 
     document.addEventListener('keydown', window.utils.getKeydownEscEventWrapper(closeBigPicture));
-  }
+  };
 
-  function closeBigPicture() {
+  var closeBigPicture = function () {
     document.body.classList.remove(BODY_CLASS_MODAL_OPEN_VALUE);
     bigPictureNode.classList.add(window.utils.CLASS_HIDDEN);
 
     document.removeEventListener('keydown', window.utils.getKeydownEscEventWrapper(closeBigPicture));
-  }
+  };
 
-  function hideCommentsLoader() {
+  var hideCommentsLoader = function () {
     commentsLoaderNode.classList.add(window.utils.CLASS_HIDDEN);
-  }
+  };
 
-  function showCommentsLoader() {
+  var showCommentsLoader = function () {
     commentsLoaderNode.classList.remove(window.utils.CLASS_HIDDEN);
-  }
+  };
+
 
   /* EVENTS */
 
-
   /* EVENTS:controls */
 
-  function commentsLoaderClickHandler(evt) {
+  var commentsLoaderClickHandler = function (evt) {
     evt.preventDefault();
 
     addBigPictureComments();
-  }
+  };
 
 
   /* EVENTS:listeners */
@@ -135,13 +135,13 @@
    * Для запуска всех слушателей событий
    * Для этого модуля
    */
-  function snapListeners() {
+  var snapListeners = function () {
     bigPictureNode.querySelector('.big-picture__cancel').addEventListener('click', function () {
       closeBigPicture();
     });
 
     commentsLoaderNode.addEventListener('click', commentsLoaderClickHandler);
-  }
+  };
 
 
   /* EXPORT */

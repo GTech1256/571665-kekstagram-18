@@ -13,7 +13,7 @@
    * @param {*} type
    * @param {*} template
    */
-  function Notification(type, template) {
+  var Notification = function (type, template) {
     this.type = type;
     this.template = template;
 
@@ -23,7 +23,7 @@
     this.textNode = null;
 
     this.escReferenceHandler = null;
-  }
+  };
 
   Notification.prototype.render = function () {
     var cloneNode = this.template.cloneNode(true);
@@ -113,7 +113,7 @@
    * @param {NotificationType} type
    * @param {string} message
    */
-  function showNotification(type, message) {
+  var showNotification = function (type, message) {
     var notificationInstance = notificationNodeMap[type];
 
     if (!notificationInstance.isRendered) {
@@ -122,7 +122,7 @@
 
     notificationInstance.setMessage(message);
     notificationInstance.show();
-  }
+  };
 
 
   /* BUSINESS LOGIC */
@@ -130,13 +130,13 @@
   /**
    * @param {string} message
    */
-  function showErrorMessage(message) {
+  var showErrorMessage = function (message) {
     showNotification('error', message);
-  }
+  };
 
-  function showSuccessMessage() {
+  var showSuccessMessage = function () {
     showNotification('success', 'Изображение успешно загружено');
-  }
+  };
 
 
   /* EXPORT */

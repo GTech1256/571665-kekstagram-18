@@ -101,7 +101,7 @@
    * @param {VALIDATION_SCHEMA} VALIDATION_SCHEMA
    * @return {string}
    */
-  function getCustomValidity(payload, indexOfPayload, payloads, VALIDATION_SCHEMA) {
+  var getCustomValidity = function (payload, indexOfPayload, payloads, VALIDATION_SCHEMA) {
     var validationSchemaTypes = Object.keys(VALIDATION_SCHEMA);
 
     for (var i = 0; i < validationSchemaTypes.length; i++) {
@@ -114,22 +114,22 @@
     }
 
     return CLEAR_CUSTOM_VALIDITY_VALUE;
-  }
+  };
 
   /**
    * @param {HTMLInputElement} inputNode
    * @param {boolean} isCorrect
    */
-  function setInputNodeOutline(inputNode, isCorrect) {
+  var setInputNodeOutline = function (inputNode, isCorrect) {
     inputNode.style.outline = isCorrect ? CORRECT_INPUT_OUTLINE_VALUE : INCORRECT_INPUT_OUTLINE_VALUE;
-  }
+  };
 
   /**
    * @param {HTMLInputElement} inputNode
    * @param {string[]} values
    * @param {VALIDATION_SCHEMA} schema
    */
-  function makeValidateInputNodeBySchema(inputNode, values, schema) {
+  var makeValidateInputNodeBySchema = function (inputNode, values, schema) {
     setInputNodeOutline(inputNode, true);
 
     if (!values[0]) {
@@ -149,7 +149,7 @@
         break;
       }
     }
-  }
+  };
 
   /* EVENTS */
 
@@ -160,17 +160,17 @@
    *
    * @param {InputEvent} evt
    */
-  function textHashtagInputHandler(evt) {
+  var textHashtagInputHandler = function (evt) {
     var hashtags = evt.target.value.trim().toLowerCase().split(' ');
 
     makeValidateInputNodeBySchema(textHashtagInputNode, hashtags, HASHTAG_VALIDATION_SCHEMA);
-  }
+  };
 
-  function textDescriptionInputHandler(evt) {
+  var textDescriptionInputHandler = function (evt) {
     var values = [evt.target.value];
 
     makeValidateInputNodeBySchema(textDescriptionInputNode, values, DESCRIPTION_VALIDATION_SCHEMA);
-  }
+  };
 
 
   /* EVENTS:listeners */
@@ -180,11 +180,11 @@
    * Для запуска всех слушателей событий
    * Для этого модуля
    */
-  function snapListeners() {
+  var snapListeners = function () {
     textHashtagInputNode.addEventListener('input', textHashtagInputHandler);
 
     textDescriptionInputNode.addEventListener('input', textDescriptionInputHandler);
-  }
+  };
 
 
   /* EXPORT */

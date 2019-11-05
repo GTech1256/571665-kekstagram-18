@@ -17,7 +17,7 @@
    * @param {Picture} payload
    * @return {Node}
    */
-  function getFilledPictureNodeFromTemplate(payload) {
+  var getFilledPictureNodeFromTemplate = function (payload) {
     var pictureNode = pictureTemplate.cloneNode(true);
 
     pictureNode.querySelector('.picture__img').src = payload.url;
@@ -25,14 +25,14 @@
     pictureNode.querySelector('.picture__comments').textContent = payload.comments.length;
 
     return pictureNode;
-  }
+  };
 
   /**
    * Отрисовка, сгенерированных из темплейта #picture, DOM-элементов
    *
    * @param {Picture[]} generatedPictures
    */
-  function renderGeneratedPictures(generatedPictures) {
+  var renderGeneratedPictures = function (generatedPictures) {
     var fragment = document.createDocumentFragment();
 
     generatedPictures.forEach(function (item, i) {
@@ -46,9 +46,9 @@
     removeAllRenderedPuctures();
 
     picturesNode.appendChild(fragment);
-  }
+  };
 
-  function removeAllRenderedPuctures() {
+  var removeAllRenderedPuctures = function () {
     Array.from(picturesNode.children).forEach(function (node) {
 
       if (node.tagName === 'A') {
@@ -56,26 +56,26 @@
       }
 
     });
-  }
+  };
 
   /**
    * @param {HTMLImageElement} imageNode
    * @return {number}
    */
-  function getPictureIdFromImageNode(imageNode) {
+  var getPictureIdFromImageNode = function (imageNode) {
     var imageName = new URL(imageNode.src)
     .pathname
     .match(/[0-9]{1,}.(jpg|png|gif)/g)
     .join('');
 
     return parseInt(imageName, 10);
-  }
+  };
 
   /**
    * @param {(MouseEvent|KeyboardEvent)} evt
    * @return {(HTMLImageElement|null)}
    */
-  function getPictureNodeFromPicturesClick(evt) {
+  var getPictureNodeFromPicturesClick = function (evt) {
     var potentialTarget = evt.target;
 
     if (potentialTarget.classList.contains('picture__img')) {
@@ -98,7 +98,7 @@
     }
 
     return null;
-  }
+  };
 
 
   /* EVENTS */
@@ -109,7 +109,7 @@
   /**
    * @param {(MouseEvent|KeyboardEvent)} evt
    */
-  function picturesNodeDelegatedClickHandler(evt) {
+  var picturesNodeDelegatedClickHandler = function (evt) {
     var target = getPictureNodeFromPicturesClick(evt);
 
     if (!target) {
@@ -125,8 +125,7 @@
         window.notification.showErrorMessage,
         true
     );
-
-  }
+  };
 
 
   /* EVENTS:listeners */
@@ -136,9 +135,9 @@
    * Для запуска всех слушателей событий
    * Для этого модуля
    */
-  function snapListeners() {
+  var snapListeners = function () {
     picturesNode.addEventListener('click', picturesNodeDelegatedClickHandler, true);
-  }
+  };
 
 
   /* EXPORT */
