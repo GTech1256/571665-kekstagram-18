@@ -104,9 +104,7 @@
    * @param {KeyboardEvent} evt
    */
   var closeBigPicture = function (evt) {
-    console.log(evt, 'EVT');
-
-    if (!window.utils.checkIsKeydownEscEvent(evt)) {
+    if (evt && !window.utils.checkIsKeydownEscEvent(evt)) {
       return;
     }
 
@@ -135,12 +133,6 @@
     addBigPictureComments();
   };
 
-  /**
-   * @param {MouseEvent} evt
-   */
-  var bigPictureCancelClickHandler = function (evt) {
-    closeBigPicture(evt);
-  };
 
   /* EVENTS:listeners */
 
@@ -150,7 +142,9 @@
    * Для этого модуля
    */
   var snapListeners = function () {
-    bigPictureNode.querySelector('.big-picture__cancel').addEventListener('click', bigPictureCancelClickHandler);
+    bigPictureNode.querySelector('.big-picture__cancel').addEventListener('click', function () {
+      closeBigPicture();
+    });
 
     commentsLoaderNode.addEventListener('click', commentsLoaderClickHandler);
   };

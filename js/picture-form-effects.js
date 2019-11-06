@@ -148,14 +148,19 @@
    * @param {number} newPercent 0 - 100
    */
   var setFilterToPictureUploadPreviewNode = function (newPercent) {
-    if (currentFilter === EFFECT_NAME_TO_FILTER_MAP.none) {
-      pictureUploadPreviewNode.style.filter = '';
-    } else if (currentFilter === EFFECT_NAME_TO_FILTER_MAP.chrome || currentFilter === EFFECT_NAME_TO_FILTER_MAP.sepia) {
-      pictureUploadPreviewNode.style.filter = currentFilter + '(' + newPercent / MAX_PERCENT_OF_FILTER_VALUE + ')';
-    } else {
-      var filter = FILTER_MAP[currentFilter];
-      newPercent = window.utils.getValueBetweenByPercent(filter.min, filter.max, newPercent, MAX_PERCENT_OF_FILTER_VALUE);
-      pictureUploadPreviewNode.style.filter = currentFilter + '(' + newPercent + filter.units + ')';
+    switch (currentFilter) {
+      case EFFECT_NAME_TO_FILTER_MAP.none:
+        pictureUploadPreviewNode.style.filter = '';
+        break;
+      case EFFECT_NAME_TO_FILTER_MAP.chrome:
+      case EFFECT_NAME_TO_FILTER_MAP.sepia:
+        pictureUploadPreviewNode.style.filter = currentFilter + '(' + newPercent / MAX_PERCENT_OF_FILTER_VALUE + ')';
+        break;
+      default:
+        var filter = FILTER_MAP[currentFilter];
+        newPercent = window.utils.getValueBetweenByPercent(filter.min, filter.max, newPercent, MAX_PERCENT_OF_FILTER_VALUE);
+        pictureUploadPreviewNode.style.filter = currentFilter + '(' + newPercent + filter.units + ')';
+        break;
     }
   };
 

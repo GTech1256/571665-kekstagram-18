@@ -33,7 +33,7 @@
   var checkIsTargetInput = function (evt) {
     var targetIsInput = evt.target.name || evt.target.tagName === 'INPUT';
 
-    return evt.target && targetIsInput && evt.target.getAttribute('type') !== 'file';
+    return evt.target && targetIsInput && !evt.target.readOnly && evt.target.getAttribute('type') !== 'file';
   };
 
   /**
